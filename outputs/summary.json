@@ -1,0 +1,11 @@
+{
+  "verdict": "KILLED-AT-4-not-beaten-or-below-bar",
+  "best_baseline": 0.90475,
+  "comm_auc": 0.81605,
+  "comm_ci": [
+    0.7580728146580215,
+    0.8689040280744583
+  ],
+  "gain": -0.0887,
+  "local_auc": 0.78655
+}
