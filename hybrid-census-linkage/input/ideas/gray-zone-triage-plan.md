@@ -3,7 +3,7 @@ title: "Gray-zone LLM triage on top of a hand-built census linkage rule"
 type: plan
 created: 2026-11-17
 updated: 2026-11-17
-status: draft
+status: pre-registered
 author: mixed
 design: "[[gray-zone-triage-design]]"
 ---
