@@ -1,0 +1,27 @@
+{
+ "n": 100,
+ "counts": {
+  "over_merge": 44,
+  "undetermined": 29,
+  "double_listing": 23,
+  "duplicate_row": 4
+ },
+ "rules_fired": {
+  "b_marital": 18,
+  "c_two_households": 8,
+  "a_patronym": 9,
+  "d_parallel": 9
+ },
+ "over_merge_share": 0.44,
+ "wilson95": [
+  0.347,
+  0.538
+ ],
+ "stratified_all_within_wave": {
+  "estimate": 0.462,
+  "ci95": [
+   0.372,
+   0.552
+  ]
+ }
+}

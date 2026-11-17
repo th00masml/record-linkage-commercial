@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from evidence import load, km, lab
 
 SPOUSE = re.compile(r"\b(kona hans|hans kona|húsfreyja|húsmóðir|bóndi|húsbóndi|húsráðandi|maður hennar|hennar maður|eiginkona|eiginmaður|ekkja|ekkill|búandi)\b", re.I)
-VISIT = re.compile(r"stadd|heimil|gestur|fjarver|ferð|vertíð|sjóróðr|til lækn", re.I)
+VISIT = re.compile(r"stadd|heimil|gestur|aðkom|fjarver|ferð|vertíð|sjóróðr|nám|skóla|lækn", re.I)  # list from PROTOCOL2.md
 
 def stem(s):
     s = unicodedata.normalize("NFKD", (s or "").lower().strip())
