@@ -1,1 +1,2 @@
+# core: pair building, B1/B2, Fellegi-Sunter (numpy), metrics, LLM scoring via Ollama/CLI
 numpy==2.5.2

@@ -1,0 +1,8 @@
+# Splink baseline (src/splink_baseline.py)
+splink==5.0.0
+duckdb==2.0.0
+# tests
+pytest==9.2.0
+# optional: `score.py comm --backend api` (temperature-controlled API; needs ANTHROPIC_API_KEY).
+# Not exercised in this repo's recorded runs.
+anthropic==2.9.0

@@ -1,0 +1,39 @@
+{
+  "leaks": {
+    "auc_census_gap_only": 0.8308,
+    "auc_wave_order_only": 0.58,
+    "auc_full_name_identical_only": 0.595,
+    "neg_with_A_later_than_B": 16,
+    "pos_with_A_later_than_B": 0,
+    "pos_full_name_differs": 1,
+    "neg_full_name_differs": 20,
+    "neg_first_letter_counts": {
+      "a": 100
+    }
+  },
+  "B2": 0.90475,
+  "B2_without_gold_partner": 0.8999,
+  "FS_em_from_v2_dev": 0.88735,
+  "FS_sup_from_v2_dev": 0.88735,
+  "stacking": {
+    "B2_nopartner_crossfit_auc": 0.8999,
+    "claude-sonnet-5": {
+      "hybrid_auc": 0.8943,
+      "delta_vs_B2": -0.005600000000000049,
+      "delta_ci95": [
+        -0.016515433784965002,
+        0.004245124512451259
+      ],
+      "p_delta_le_0": 0.8605
+    },
+    "qwen2.5:14b": {
+      "hybrid_auc": 0.897,
+      "delta_vs_B2": -0.0029000000000000137,
+      "delta_ci95": [
+        -0.016409215177441264,
+        0.010001601663925715
+      ],
+      "p_delta_le_0": 0.652
+    }
+  }
+}

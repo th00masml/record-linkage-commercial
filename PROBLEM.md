@@ -57,7 +57,7 @@ partner. See DATA-LICENSES.md.
   name + patronym + sex and were born within 1 year, from different waves.
   Icelandic homonyms -- exactly Galton's "little variety of surnames".
   The name carries no signal for any pair; only birth-year consistency,
-  geography, household, and life-course do.
+  geography, household, and life-course do. [Not quite true: see note 3.]
 
 Both models and baselines see the same fields (parish/county given by
 name and coordinates).
@@ -71,7 +71,7 @@ Baselines (run first):
 - B1 = birth-year agreement only.
 - B2 = a competent hand-built rule (birth-year, parish, county, farm,
   partner, geographic proximity via coordinates). Measured: **B1 0.72,
-  B2 0.905** on this set.
+  B2 0.905** on this set. [Provenance of the B2 weights: see note 1.]
 
 Instruments (same fields, same prompt):
 - M_local = qwen2.5:14b (local).
@@ -88,6 +88,8 @@ No threshold moves after seeing the model numbers.
 
 ## Memorization
 
+[Superseded by note 4: the claim below is too strong.]
+
 Not a threat here, and this is the analysis, not an omission. The task is
 to link anonymized census rows whose true identity groupings are a private
 expert curation over internal ID codes; there is no public answer key
@@ -96,3 +98,39 @@ memorized. The names are common Icelandic patronymics shared by thousands.
 Any score therefore reflects reasoning over the shown evidence, not
 recall. (A frontier model cannot know that census-row X in 1835 and
 census-row Y in 1840 are the same farm laborer.)
+
+---
+
+## Post-hoc notes (added 2026-11-17, after review)
+
+The text above is the preregistration as committed; it is left unchanged
+except for the bracketed pointers. Nothing below moves a threshold or changes
+the v1 verdict.
+
+1. **B2 weights.** The weights (2/1 birth year, 1.5 parish, 0.5 county,
+   1 farm, 2 partner, distance decay to 100 km) are hand-set. The repository
+   has a single snapshot commit, so there is no timestamped evidence that they
+   were fixed before the 200 test pairs were seen, and we do not claim it. The
+   check that can still be made was made: the same frozen weights were applied
+   to 4,000 freshly and randomly drawn test pairs, and compared with models
+   whose weights were fitted on a separate dev split with no names in common
+   with the test split (Fellegi-Sunter by EM and by counts, Splink, logistic
+   regression). Frozen B2 scores AUC 0.961 there,
+   the dev-fitted logistic regression 0.963, Splink 0.959 (RESULTS.md, v2). The
+   rule is not overfitted to the v1 pairs.
+2. **`partner_id` is gold-derived.** In ICE-ID `people.csv`, `partner` holds the
+   partner's expert-curated *person* id (65,186 of 65,404 values equal the
+   `person` of a co-resident row). Equal partner ids across waves therefore
+   encode the expert linkage of the partner. It affects 4 of 100 positives;
+   dropping the term moves B2 from 0.905 to 0.900. v2 uses the partner's name.
+3. **Names and census years carry class signal in v1.** 20 of 100 negatives
+   differ in full name (middle names), against 1 of 100 positives; negatives
+   come from any two waves while positives are adjacent appearances, so the
+   census gap alone has AUC 0.831 on v1; and 16 negatives have record A in the
+   later wave, positives never. Selection was "first N in sort order", so all
+   100 negatives have first names beginning with "A". v2 fixes all four.
+4. **Memorization.** ICE-ID, including the `person` column, has been public on
+   HuggingFace since mid-2025, so a model trained on web data after that date
+   could in principle have seen the answer key. Recall of specific person ids
+   from 984k rows is implausible, and the models are not shown the ids, but
+   contamination is not excluded "by construction". See RESULTS.md.
