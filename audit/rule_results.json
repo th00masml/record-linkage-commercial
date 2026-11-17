@@ -1,0 +1,14 @@
+{
+ "n": 50,
+ "counts": {
+  "over_merge": 35,
+  "undetermined": 11,
+  "duplicate_row": 2,
+  "kin_link_error": 2
+ },
+ "over_merge_share": 0.7,
+ "wilson95": [
+  0.562,
+  0.809
+ ]
+}
