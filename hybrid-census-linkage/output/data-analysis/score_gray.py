@@ -31,7 +31,27 @@ sys.path.insert(0, os.path.join(REPO, "src"))
 from common import parse_score  # noqa: E402  (frozen parser, experiment 1)
 from score import SYSTEM, prompt  # noqa: E402  (frozen prompt, experiment 1)
 
-OLLAMA = os.environ.get("OLLAMA_HOST", "http://localhost:11434").rstrip("/")
+def _ollama_url(raw):
+    """Accept OLLAMA_HOST in Ollama's own formats: "127.0.0.1", "127.0.0.1:11434",
+    "0.0.0.0:11434", "http://host:port"; return a full http(s) base URL."""
+    raw = (raw or "").strip().rstrip("/")
+    if not raw:
+        return "http://localhost:11434"
+    if "://" not in raw:
+        raw = "http://" + raw
+    scheme, rest = raw.split("://", 1)
+    host = rest.split("/", 1)[0]
+    if host.startswith("["):                       # IPv6 literal
+        has_port = "]:" in host
+    else:
+        has_port = ":" in host
+    if not has_port:
+        host += ":11434"
+    host = host.replace("0.0.0.0", "127.0.0.1")    # bind-all address is not dialable
+    return f"{scheme}://{host}"
+
+
+OLLAMA = _ollama_url(os.environ.get("OLLAMA_HOST"))
 MODEL = "qwen2.5:14b"
 SEEDS = [1, 2, 3, 4, 5]
 OPTIONS = {"temperature": 0.7, "top_p": 1.0, "num_predict": 12}
