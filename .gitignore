@@ -13,3 +13,4 @@ node_modules/
 *.gguf
 *.pt
 .DS_Store
+dist/
