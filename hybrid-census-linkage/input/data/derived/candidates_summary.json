@@ -109,10 +109,10 @@
  },
  "summary": {
   "overall": {
-   "anchors": 294530,
+   "anchors": 294531,
    "anchor_persons": 131045,
-   "pairs": 1194338,
-   "positives": 235229,
+   "pairs": 1194339,
+   "positives": 235230,
    "negatives": 959109,
    "cand_per_anchor_mean": 4.055,
    "cand_per_anchor_median": 1.0,
@@ -130,10 +130,10 @@
     "cand_per_anchor_max": 187
    },
    "test": {
-    "anchors": 147051,
+    "anchors": 147052,
     "anchor_persons": 65523,
-    "pairs": 600207,
-    "positives": 117466,
+    "pairs": 600208,
+    "positives": 117467,
     "negatives": 482741,
     "cand_per_anchor_mean": 4.082,
     "cand_per_anchor_median": 1.0,
@@ -415,10 +415,10 @@
     }
    },
    "1901-1910": {
-    "anchors": 25170,
+    "anchors": 25171,
     "anchor_persons": 24857,
-    "pairs": 59775,
-    "positives": 20317,
+    "pairs": 59776,
+    "positives": 20318,
     "negatives": 39458,
     "cand_per_anchor_mean": 2.375,
     "cand_per_anchor_median": 1.0,
@@ -426,12 +426,12 @@
     "eligible_anchor_wave_records": 36785,
     "blocking_recall_all": {
      "denominator": 19677,
-     "found": 19490,
+     "found": 19491,
      "recall": 0.9905
     },
     "blocking_recall_kept_anchors": {
-     "denominator": 19508,
-     "found": 19490,
+     "denominator": 19509,
+     "found": 19491,
      "recall": 0.9991
     }
    },
@@ -729,10 +729,10 @@
     "cand_per_anchor_max": 36
    },
    "test:1901-1910": {
-    "anchors": 12640,
+    "anchors": 12641,
     "anchor_persons": 12498,
-    "pairs": 29862,
-    "positives": 10190,
+    "pairs": 29863,
+    "positives": 10191,
     "negatives": 19672,
     "cand_per_anchor_mean": 2.362,
     "cand_per_anchor_median": 1.0,
@@ -761,31 +761,37 @@
   },
   "blocking_recall_all": {
    "denominator": 229826,
-   "found": 225790,
+   "found": 225791,
    "recall": 0.9824
   },
   "blocking_recall_kept_anchors": {
-   "denominator": 226921,
-   "found": 225790,
+   "denominator": 226922,
+   "found": 225791,
    "recall": 0.995
   },
-  "anchors_without_candidates": 163565,
+  "anchors_without_candidates": 163564,
   "anchors_with_gt1_positive": 8841,
   "split_persons": {
    "cal": 65522,
    "test": 65523
+  },
+  "partner_match_blanked": {
+   "pairs": 24908,
+   "share_of_pairs": 0.0209,
+   "positives": 23798,
+   "share_of_positives": 0.1012
   }
  },
  "unit_checks": "all passed (exclusion, split disjointness, blocking rule, label, pair_id contiguity, no duplicate pairs, brute-force completeness on 2000 anchors, b2 runs on 1000 sampled pairs)",
  "file_sizes_bytes": {
-  "records.jsonl": 137992187,
-  "candidates.csv": 51593879,
+  "records.jsonl": 137692055,
+  "candidates.csv": 51593925,
   "split.json": 2238958
  },
  "gitignored_large_files": [
   "records.jsonl"
  ],
- "records_written": 381812,
+ "records_written": 381813,
  "seed": 0,
- "wall_time_s": 21.6
+ "wall_time_s": 22.5
 }

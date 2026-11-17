@@ -32,6 +32,16 @@ A8  Blocking recall denominator = eligible records in w_i (i < last) whose
     person has >= 1 eligible record in w_{i+1}; numerator = those for which at
     least one such record is among their candidates. Reported both over all
     eligible w_i records (primary) and over kept anchors only.
+A9  (Amendment 1) Sex is normalised case-insensitively: "KArl" -> male. The
+    exp-1 rebuild check is unaffected (exp-1 records only carry Karl/Kona).
+A10 (Amendment 1) `partner_id` is blanked ("") in every written record, after
+    the exp-1 rebuild check. ICE-ID's `partner` is the spouse's expert-curated
+    person id, so a cross-wave partner match reads the gold standard. The
+    number of pairs it would have fired on is reported.
+A11 (Amendment 1) Labels are taken as truth, uncorrected. Candidate records
+    may belong to persons of the other split; pairs are never filtered on the
+    candidate's split (positives always share the anchor's split, so such a
+    filter would depend on the label).
 Labels are used here only to count positives/negatives and for blocking recall.
 No B2 score is summarised (only checked to run), so nothing is calibrated here.
 """
@@ -83,7 +93,8 @@ def build(r, parishes, counties):
         "person": r["person"].strip(), "wave": r["heimild"].strip(),
         "name": r["nafn_norm"].strip() or f"{fn} {pat}",
         "first": fn.lower(), "patronym": pat.lower(),
-        "sex": SEX.get(r["sex"].strip(), r["sex"].strip()),
+        "sex": SEX.get(r["sex"].strip(),
+                       SEX.get(r["sex"].strip().capitalize(), r["sex"].strip())),
         "birthyear": yr, "status": r["status"].strip(),
         "marriage": r["marriagestatus"].strip(),
         "parish": par.get("full_name", "") or r["parish"].strip(),
@@ -186,6 +197,11 @@ def main():
     if mism:
         note.append(f"{len(mism)} of {n_side} experiment-1 records could not be "
                     "rebuilt identically from the raw file (see exp1_schema_check).")
+
+    # ---- A10: blank partner_id (gold-standard leakage), after the exp-1 check ---
+    partner_raw = {x["rid"]: x["partner_id"] for x in elig}
+    for x in elig:
+        x["partner_id"] = ""
 
     # ---- waves ----------------------------------------------------------------
     waves = sorted({x["wave"] for x in elig}, key=lambda w: int(w))
@@ -301,6 +317,13 @@ def main():
     summ["anchors_with_gt1_positive"] = int(
         (P[P["label"] == 1].groupby("anchor_rid").size() > 1).sum())
     summ["split_persons"] = {"cal": half, "test": len(persons) - half}
+    pa = P["anchor_rid"].map(partner_raw)
+    pc = P["cand_rid"].map(partner_raw)
+    pm = (pa != "") & (pa == pc)
+    summ["partner_match_blanked"] = {
+        "pairs": int(pm.sum()), "share_of_pairs": round(float(pm.mean()), 4),
+        "positives": int(P.loc[pm, "label"].sum()),
+        "share_of_positives": round(float(P.loc[pm, "label"].sum() / P["label"].sum()), 4)}
     rep["summary"] = summ
 
     # ---- records ---------------------------------------------------------------
@@ -310,6 +333,8 @@ def main():
 
     # ---- unit checks (fail loudly) ---------------------------------------------
     assert not any((x["person"], x["wave"]) in excl for x in recs_out), "excluded key leaked"
+    assert all(x["partner_id"] == "" for x in recs_out), "partner_id not blanked"
+    assert all(x["sex"] in ("male", "female") for x in recs_out), "unnormalised sex value"
     assert P.groupby("anchor_person")["split"].nunique().max() == 1, "person in both splits"
     assert set(P["split"]) <= {"cal", "test"} and P["split"].notna().all()
     byrid = {x["rid"]: x for x in recs_out}
@@ -400,6 +425,7 @@ def main():
     print("split persons:", summ["split_persons"], "| anchors w/o candidates:",
           summ["anchors_without_candidates"], "| anchors with >1 positive:",
           summ["anchors_with_gt1_positive"])
+    print("partner match (blanked):", summ["partner_match_blanked"])
     print("files:", sizes, "| gitignored:", big)
     print("notes:", *note, sep="\n  ")
     print(rep["unit_checks"])

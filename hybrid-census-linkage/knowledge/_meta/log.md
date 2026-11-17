@@ -30,3 +30,7 @@ author: llm
   - 2026-11-17 · deviation-candidate · plan=gray-zone-triage · `partner` is the spouse's expert-curated `person` id (99.67% equal to person of the `source_partner` row; filled for 13.2% of labelled vs 0.1% of unlabelled records). B2's cross-wave partner rule therefore reads the gold-standard linkage of the spouse. Fires on 2.1% of candidate pairs, 10% of positives. `farm` is a place id (filled for 99.8% of unlabelled records), not leakage.
   - Experiment 1 impact: 4 of 200 pairs had a partner match; B2 AUC without partner 0.900 [0.856, 0.937] vs 0.905; KILLED-AT-4 unchanged.
 - No thresholds computed, no LLM run, no test outcome inspected yet. Awaiting researcher decision before Task 3.
+
+## [2026-11-17] amendment | gray-zone-triage Amendment 1 (pre-data)
+- 2026-11-17 · deviation · plan=gray-zone-triage · Researcher approved Amendment 1 (see plan): partner_id blanked in all inputs (gold-standard leakage), bootstrap unit = anchor persons, added name-block CI / duplicate-key / anchor-weighted sensitivity, end-to-end misses and per-wave descriptives, case-insensitive sex, storage format recorded. H1 and frozen parameters unchanged. No threshold, LLM output or test outcome existed at the time.
+- Task 2 re-run: 1,194,339 pairs (+1 from `KArl`), split unchanged; partner rule would have fired on 24,908 pairs (2.09%), 10.12% of positives. All unit checks pass.

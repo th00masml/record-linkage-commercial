@@ -162,6 +162,49 @@ The project is complete when:
 - The ICE-ID companion methods paper (12 baselines including Ditto, XGBoost, Splink, per the v2 dataset paper) could not be retrieved before pre-registration: web search credits were exhausted and direct arXiv access is blocked in this environment. If Task 9 finds that it already reports an LLM gray-zone hybrid on ICE-ID, the result is logged and the article is reframed as a replication; H1 and its criteria do not change.
 - Any change to frozen parameters after sign-off is logged in `knowledge/_meta/log.md` with the reason, and the affected result is labelled exploratory.
 
+## Amendment 1 (2026-11-17, before any outcome data)
+
+Approved by the researcher after the Task 2 reviews. At the time of the
+amendment no threshold had been computed, no LLM call made, and no test-split
+outcome inspected (only blocking counts). H1, the falsification criteria and
+every value in "Frozen parameters" are unchanged. The text above is kept as
+registered; where it conflicts with this section, this section applies.
+
+1. **Leakage removed: `partner_id` is blanked in every input.** In ICE-ID the
+   `partner` field holds the spouse's expert-curated `person` id (99.67% equal
+   to the person of the `source_partner` row; filled for 13.2% of labelled and
+   0.1% of unlabelled records). B2's cross-wave partner rule therefore reads
+   the gold-standard linkage of the spouse. `make_candidates.py` writes
+   `partner_id = ""` for every record, so B2 (code unchanged), the
+   Fellegi–Sunter stage and the LLM prompt never see it. The Splink
+   comparison on partner is dropped. `farm_id` is a place identifier (filled
+   for 99.8% of unlabelled records) and stays. Experiment 1 check: 4 of 200
+   pairs had a partner match; B2 AUC without it is 0.900 [0.856, 0.937] vs
+   0.905, so KILLED-AT-4 is unaffected.
+2. **Bootstrap unit made explicit.** "Resamples over test anchors" means
+   resampling anchor persons (the split unit), with all their anchor records
+   and pairs. This CI decides criterion 2.
+3. **Added sensitivity analyses (reported, not decisive):**
+   - CI clustered on name blocks (first name, patronym, sex, wave pair),
+     because 1% of blocks hold about 72% of pairs;
+   - primary metrics recomputed excluding anchors that touch a (person, wave)
+     key with more than one record (likely merged homonyms in the labels);
+   - anchor-weighted review load as a secondary figure.
+4. **Added descriptive reporting:** end-to-end missed links (true links lost
+   by blocking plus those auto-rejected), alongside beta; L and false-match
+   rate per wave pair, descriptive only, no per-wave claims.
+5. **Sex normalisation is case-insensitive** (`KArl` -> male), as "normalized
+   sex" in Data Sources requires; one record affected.
+6. **Storage format (no method change):** Task 2 writes `candidates.csv`
+   (pair_id, anchor_rid, cand_rid, anchor_person, wave_a, wave_b, split,
+   label) plus `records.jsonl` joined on rid, instead of one
+   `candidates.jsonl` with inline records. The two large files are
+   gitignored and verified by SHA-256 in `input/data/README.md`.
+7. **Labels are taken as truth, uncorrected.** Candidate records may belong
+   to persons of the other split; pairs are never filtered on the candidate's
+   split, because positives always share the anchor's split and such a filter
+   would depend on the label.
+
 ## Deviations Log
 
 Append to `knowledge/_meta/log.md` whenever scope, method, or data sources change after pre-registration. Reference the slug `gray-zone-triage`.
