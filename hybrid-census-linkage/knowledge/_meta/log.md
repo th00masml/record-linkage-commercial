@@ -22,3 +22,11 @@ author: llm
 ## [2026-11-17] data | gray-zone-triage Task 1 done
 - ICE-ID raw files fetched and fingerprinted (input/data/README.md); row count and label rate match the dataset paper
 - Session network switched to the saved `record-linkage-commercial` environment to reach huggingface.co
+
+## [2026-11-17] review | gray-zone-triage Task 2 reviews
+- Spec review: PASS (independent rebuild reproduces all 1,194,338 pairs and the split). Format differs from plan: `candidates.csv` + `records.jsonl` joined on rid instead of one `candidates.jsonl` with inline records (storage only; inline records would be several GB). Script appends large derived files to `.gitignore`.
+- Edge case: one record has raw sex `KArl`; the case-sensitive exp-1 SEX map leaves it unblocked (1 anchor, 1 true pair lost).
+- Quality review: SOUND WITH ISSUES. Verified in main context:
+  - 2026-11-17 · deviation-candidate · plan=gray-zone-triage · `partner` is the spouse's expert-curated `person` id (99.67% equal to person of the `source_partner` row; filled for 13.2% of labelled vs 0.1% of unlabelled records). B2's cross-wave partner rule therefore reads the gold-standard linkage of the spouse. Fires on 2.1% of candidate pairs, 10% of positives. `farm` is a place id (filled for 99.8% of unlabelled records), not leakage.
+  - Experiment 1 impact: 4 of 200 pairs had a partner match; B2 AUC without partner 0.900 [0.856, 0.937] vs 0.905; KILLED-AT-4 unchanged.
+- No thresholds computed, no LLM run, no test outcome inspected yet. Awaiting researcher decision before Task 3.
