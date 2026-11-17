@@ -250,11 +250,11 @@ The research questions, the choice of what to test, the decisions at each
 step and the architecture of the code are the author's; the author also wrote
 and refactored code. Claude (Anthropic) was used as a research and coding
 assistant under the author's direction: it wrote and ran analysis code,
-proposed parts of the study design, and drafted the documentation and this manuscript. The author is
-responsible for the content. Each pre-registration protocol was committed
-before the analysis it governs.
+proposed parts of the study design, and drafted the documentation and this
+manuscript. The author is responsible for the content. The v1 preregistration
+was fixed before any model run; later analyses are marked post-hoc.
 
-Claude models are also instruments under test in this study; their use as
-an assistant is separate from, and did not touch, their scored outputs.
+Claude models are also instruments under test in this study. That use is
+separate from their use as an assistant.
 
 ## References
