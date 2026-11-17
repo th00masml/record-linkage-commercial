@@ -23,8 +23,8 @@ over_merges were spot-checked.
 
 | final | n |
 |---|---|
-| over_merge | 70 (44 rule + 15 undetermined + 10 double_listing + 1 more from undetermined) |
-| label_correct | 18 (4 duplicate_row + 14 read as one person listed twice) |
+| over_merge | 70 (44 rule + 16 from undetermined + 10 from double_listing) |
+| label_correct | 18 (4 duplicate_row + 4 from undetermined + 10 from double_listing) |
 | undetermined | 12 |
 
 Manual over_merge 70 / 100, Wilson [0.604, 0.781]. Stratified with audit 1
