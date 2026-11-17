@@ -54,3 +54,13 @@ python stacking_v2.py                             # LLM as a feature on v2
 claude-sonnet-5 runs on v2 and the bare-instrument v1 re-run are cached in
 `outputs/`; qwen2.5:14b on v2 and few-shot runs still need a machine with
 Ollama (commands in `RESULTS.md`).
+
+## Use of AI tools
+
+The research questions, the choice of what to test, the decisions at each
+step and the architecture of the code are the author's; the author also wrote
+and refactored code. Claude (Anthropic) was used as a research and coding
+assistant under the author's direction: it wrote and ran analysis code,
+proposed parts of the audit design, and drafted the documentation and the
+note. The author is responsible for the content. Each pre-registration
+protocol was committed before the analysis it governs.
