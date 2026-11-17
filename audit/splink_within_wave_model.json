@@ -1,0 +1,343 @@
+{
+    "link_type": "dedupe_only",
+    "probability_two_random_records_match": 2.9716424754888778e-08,
+    "retain_matching_columns": true,
+    "retain_intermediate_calculation_columns": false,
+    "additional_columns_to_retain": [
+        "wave"
+    ],
+    "sql_dialect": "duckdb",
+    "linker_uid": "w4qf8b2z",
+    "em_convergence": 0.0001,
+    "max_iterations": 25,
+    "bayes_factor_column_prefix": "bf_",
+    "term_frequency_adjustment_column_prefix": "tf_",
+    "comparison_vector_value_column_prefix": "gamma_",
+    "unique_id_column_name": "unique_id",
+    "source_dataset_column_name": "source_dataset",
+    "blocking_rules_to_generate_predictions": [
+        {
+            "blocking_rule": "(l.\"wave\" = r.\"wave\") AND (l.\"first_name\" = r.\"first_name\") AND (l.\"patronym\" = r.\"patronym\")",
+            "sql_dialect": "duckdb"
+        }
+    ],
+    "comparisons": [
+        {
+            "output_column_name": "first_name",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"first_name_l\" IS NULL OR \"first_name_r\" IS NULL",
+                    "label_for_charts": "first_name is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"first_name_l\" = \"first_name_r\"",
+                    "label_for_charts": "Exact match on first_name",
+                    "m_probability": 0.014239236702538441,
+                    "u_probability": 0.014485699022970429,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"first_name_l\", \"first_name_r\") >= 0.9",
+                    "label_for_charts": "Jaro-Winkler distance of first_name >= 0.9",
+                    "m_probability": 0.006014551791979321,
+                    "u_probability": 0.006616941503037928,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.9797462115054822,
+                    "u_probability": 0.9788973594739916,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "JaroWinklerAtThresholds"
+        },
+        {
+            "output_column_name": "patronym",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"patronym_l\" IS NULL OR \"patronym_r\" IS NULL",
+                    "label_for_charts": "patronym is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"patronym_l\" = \"patronym_r\"",
+                    "label_for_charts": "Exact match on patronym",
+                    "m_probability": 0.01921474704906528,
+                    "u_probability": 0.02014671965927101,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "jaro_winkler_similarity(\"patronym_l\", \"patronym_r\") >= 0.9",
+                    "label_for_charts": "Jaro-Winkler distance of patronym >= 0.9",
+                    "m_probability": 0.008191344730919899,
+                    "u_probability": 0.008971431143562013,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.9725939082200148,
+                    "u_probability": 0.970881849197167,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "JaroWinklerAtThresholds"
+        },
+        {
+            "output_column_name": "birthyear",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"birthyear_l\" IS NULL OR \"birthyear_r\" IS NULL",
+                    "label_for_charts": "birthyear is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"birthyear_l\" = \"birthyear_r\"",
+                    "label_for_charts": "Exact match on birthyear",
+                    "m_probability": 0.05012103757250853,
+                    "u_probability": 0.006960379531938884,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "abs(birthyear_l - birthyear_r) <= 1",
+                    "label_for_charts": "within 1",
+                    "m_probability": 0.04450289177392584,
+                    "u_probability": 0.013824531696814574,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "abs(birthyear_l - birthyear_r) <= 2",
+                    "label_for_charts": "within 2",
+                    "m_probability": 0.03900405679656375,
+                    "u_probability": 0.013538750420619625,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.8663720138570018,
+                    "u_probability": 0.9656763383506269,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "CustomComparison"
+        },
+        {
+            "output_column_name": "parish",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"parish_l\" IS NULL OR \"parish_r\" IS NULL",
+                    "label_for_charts": "parish is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"parish_l\" = \"parish_r\"",
+                    "label_for_charts": "Exact match on parish",
+                    "m_probability": 0.9999999995129735,
+                    "u_probability": 0.005653914854107192,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 4.87026553600667e-10,
+                    "u_probability": 0.9943460851458928,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "county",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"county_l\" IS NULL OR \"county_r\" IS NULL",
+                    "label_for_charts": "county is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"county_l\" = \"county_r\"",
+                    "label_for_charts": "Exact match on county",
+                    "m_probability": 0.9166232478865315,
+                    "u_probability": 0.007272221787716189,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.08337675211346843,
+                    "u_probability": 0.9927277782122839,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "farm",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"farm_l\" IS NULL OR \"farm_r\" IS NULL",
+                    "label_for_charts": "farm is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"farm_l\" = \"farm_r\"",
+                    "label_for_charts": "Exact match on farm",
+                    "m_probability": 0.06860846543413808,
+                    "u_probability": 0.00016248273620927777,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.931391534565862,
+                    "u_probability": 0.9998375172637908,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "lat_lon",
+            "comparison_levels": [
+                {
+                    "sql_condition": "(\"lat_l\" IS NULL OR \"lat_r\" IS NULL) OR (\"lon_l\" IS NULL OR \"lon_r\" IS NULL)",
+                    "label_for_charts": "(lat is NULL) OR (lon is NULL)",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\n        cast(\n            acos(\n                \n        case\n            when (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    ) > 1 then 1\n            when (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    ) < -1 then -1\n            else (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    )\n        end\n    \n            ) * 6371\n            as float\n        )\n     <= 1",
+                    "label_for_charts": "Distance less than 1km",
+                    "m_probability": 1.0,
+                    "u_probability": 0.005889180917230284,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "\n        cast(\n            acos(\n                \n        case\n            when (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    ) > 1 then 1\n            when (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    ) < -1 then -1\n            else (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    )\n        end\n    \n            ) * 6371\n            as float\n        )\n     <= 10",
+                    "label_for_charts": "Distance less than 10km",
+                    "m_probability": 2.3423857459357227e-30,
+                    "u_probability": 0.0055591276940852195,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "\n        cast(\n            acos(\n                \n        case\n            when (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    ) > 1 then 1\n            when (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    ) < -1 then -1\n            else (\n        sin( radians(\"lat_l\") ) * sin( radians(\"lat_r\") ) +\n        cos( radians(\"lat_l\") ) * cos( radians(\"lat_r\") )\n            * cos( radians(\"lon_r\" - \"lon_l\") )\n    )\n        end\n    \n            ) * 6371\n            as float\n        )\n     <= 50",
+                    "label_for_charts": "Distance less than 50km",
+                    "m_probability": 1.1251258721856786e-36,
+                    "u_probability": 0.08165547683098573,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 4.137865680911814e-51,
+                    "u_probability": 0.9068962145576988,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "DistanceInKMAtThresholds"
+        },
+        {
+            "output_column_name": "partner_name",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"partner_name_l\" IS NULL OR \"partner_name_r\" IS NULL",
+                    "label_for_charts": "partner_name is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"partner_name_l\" = \"partner_name_r\"",
+                    "label_for_charts": "Exact match on partner_name",
+                    "m_probability": 0.008827717476072248,
+                    "u_probability": 0.001735686696328167,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.9911722825239276,
+                    "u_probability": 0.9982643133036718,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "ExactMatch"
+        },
+        {
+            "output_column_name": "marriage",
+            "comparison_levels": [
+                {
+                    "sql_condition": "\"marriage_l\" IS NULL OR \"marriage_r\" IS NULL",
+                    "label_for_charts": "marriage is NULL",
+                    "fix_m_probability": false,
+                    "fix_u_probability": false,
+                    "is_null_level": true
+                },
+                {
+                    "sql_condition": "\"marriage_l\" = \"marriage_r\"",
+                    "label_for_charts": "Exact match on marriage",
+                    "m_probability": 0.7380927372162513,
+                    "u_probability": 0.5249733656453209,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "(marriage_l = '\u00d3' AND marriage_r IN ('G','E','S')) OR (marriage_r = '\u00d3' AND marriage_l IN ('G','E','S'))",
+                    "label_for_charts": "never-married vs ever-married",
+                    "m_probability": 0.2391929485963733,
+                    "u_probability": 0.442078458657461,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                },
+                {
+                    "sql_condition": "ELSE",
+                    "label_for_charts": "All other comparisons",
+                    "m_probability": 0.02271431418737536,
+                    "u_probability": 0.032948175697218036,
+                    "fix_m_probability": false,
+                    "fix_u_probability": false
+                }
+            ],
+            "comparison_description": "CustomComparison"
+        }
+    ]
+}

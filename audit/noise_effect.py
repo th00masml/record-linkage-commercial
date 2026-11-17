@@ -40,7 +40,7 @@ def hav(a, b):
     return 2 * 6371 * math.asin(min(1, math.sqrt(h)))
 
 
-def main():
+def build():
     df, par = load()
     ll = {}
     for pid, r in par.iterrows():
@@ -120,6 +120,16 @@ def main():
             oof[te] = m.predict_proba(X[te])[:, 1]
         S[name] = oof
 
+    return dict(df=df, par=par, rows=rows, positives=positives, dups=dups, pairs=pairs, ymeta=ymeta, X=X, KM=KM, DBY=DBY, y_ice=y_ice, groups=groups, S=S, no_neg=no_neg)
+
+
+def main(extra=None, tag=""):
+    """extra: function(build_dict) -> {method: scores} added to the four protocol-3 methods.
+    tag: suffix for output files, so protocol-3 outputs are never overwritten."""
+    B = build()
+    df, par, rows, positives, dups, pairs, ymeta, X, KM, DBY, y_ice, groups, S, no_neg = (B[k] for k in ['df', 'par', 'rows', 'positives', 'dups', 'pairs', 'ymeta', 'X', 'KM', 'DBY', 'y_ice', 'groups', 'S', 'no_neg'])
+    if extra:
+        S = {**S, **extra(B)}
     key = {frozenset(pr): i for i, pr in enumerate(pairs) if ymeta[i][0] == "pos"}
 
     # ---- primary: audited sample
@@ -199,18 +209,18 @@ def main():
     for cond in ("ice", "clean"):
         secondary[f"ranking_{cond}"] = sorted(S, key=lambda n: -secondary["methods"][n][cond]["auc"])
 
-    np.savez(os.path.join(HERE, "noise_effect_scores.npz"), idx=idx, yI=yI, yA=yA, st=st, w=w,
+    np.savez(os.path.join(HERE, f"noise_effect_scores{tag}.npz"), idx=idx, yI=yI, yA=yA, st=st, w=w,
              y_ice=y_ice, y_rule=y_rule, **{f"S_{k}": v for k, v in S.items()})
     out = {"positives": len(positives), "pairs": len(pairs), "positives_without_negative": no_neg,
            "primary_audited": primary, "secondary_rule_cleaned": secondary}
-    json.dump(out, open(os.path.join(HERE, "noise_effect_results.json"), "w"), indent=1, default=float)
+    json.dump(out, open(os.path.join(HERE, f"noise_effect_results{tag}.json"), "w"), indent=1, default=float)
 
     for title, blk in [("PRIMARY: audited sample", primary), ("SECONDARY: rule-cleaned, all pairs", secondary)]:
         print(f"\n{title}  (n={blk['n_pairs']})")
         print(f"{'method':10} {'AUC ice':>8} {'AUC clean':>9} {'dAUC [95% CI]':>24} {'AP ice':>7} {'AP cln':>7} {'F1 ice':>7} {'F1 cln':>7} {'R ice':>6} {'R cln':>6}")
         for n, m in blk["methods"].items():
             ci = m["delta_auc"]["ci"]
-            print(f"{n:10} {m['ice']['auc']:8.3f} {m['clean']['auc']:9.3f} {m['delta_auc']['est']:+8.3f} [{ci[0]:+.3f},{ci[1]:+.3f}] "
+            print(f"{n:12} {m['ice']['auc']:8.3f} {m['clean']['auc']:9.3f} {m['delta_auc']['est']:+8.3f} [{ci[0]:+.3f},{ci[1]:+.3f}] "
                   f"{m['ice']['ap']:7.3f} {m['clean']['ap']:7.3f} {m['ice']['f1']:7.3f} {m['clean']['f1']:7.3f} {m['ice']['recall']:6.3f} {m['clean']['recall']:6.3f}")
         print("ranking ICE-ID:", blk["ranking_ice"], "| ranking clean:", blk["ranking_clean"])
     print({k: v for k, v in out.items() if not isinstance(v, dict)}, primary["n_audited_pos_kept"], primary["audited_pos_relabelled_negative"], secondary["positives_flagged"])
