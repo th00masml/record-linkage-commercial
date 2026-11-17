@@ -18,7 +18,9 @@ import datetime
 import json
 import os
 import random
+import subprocess
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import numpy as np
 
@@ -114,6 +116,7 @@ def main():
     ap.add_argument("--json-output", action="store_true", help="cli: record the model id that answered")
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--max-failures", type=int, default=5)
+    ap.add_argument("--workers", type=int, default=1, help="parallel calls")
     args = ap.parse_args()
     args.backend = args.backend or ("ollama" if args.method == "local" else "cli")
 
@@ -143,15 +146,20 @@ def main():
     print(f"{args.method}/{args.backend}: {len(pairs)} pairs x {args.repeats}, "
           f"{len(done)} cached, {len(todo)} to do -> {outdir}")
     t0, failures = time.time(), 0
-    with open(raw_path, "a") as f:
-        for i, (p, k) in enumerate(todo):
-            pr = prompt(p["a"], p["b"], examples)
+    # Calls are independent, so they may run in parallel (--workers); rows are
+    # written by this thread only, in completion order, and keyed by (pid, rep).
+    with open(raw_path, "a") as f, ThreadPoolExecutor(max_workers=args.workers) as pool:
+        futs = {pool.submit(call, args, prompt(p["a"], p["b"], examples)): (p, k) for p, k in todo}
+        for i, fut in enumerate(as_completed(futs)):
+            p, k = futs[fut]
             try:
-                out, model_id = call(args, pr)
-            except (CLIError, OSError) as e:
+                out, model_id = fut.result()
+            except (CLIError, OSError, subprocess.TimeoutExpired) as e:
                 failures += 1
                 print(f"  pid {p['pid']} rep {k}: {e}")
                 if failures >= args.max_failures:
+                    for other in futs:
+                        other.cancel()
                     raise SystemExit("too many failed calls; fix the instrument and rerun (cached rows are kept)")
                 continue
             row = {"pid": p["pid"], "raw": out[:24], "score": parse_score(out)}

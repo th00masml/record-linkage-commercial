@@ -55,9 +55,14 @@ def generate_cli(prompt, system=None, model="claude-sonnet-5", timeout=90,
 
     system_mode="append" adds `system` to Claude Code's default system prompt (what
     the v1 run did); "replace" uses `system` as the whole system prompt, which is
-    the cleaner instrument for new runs. With json_output=True returns
-    (text, model_ids) parsed from --output-format json."""
+    the cleaner instrument for new runs. "replace" also strips everything else the
+    CLI would add (tools, skills, MCP servers, user/project settings): with plugins
+    installed that context can be ~65k tokens per call, against ~1.4k without it.
+    With json_output=True returns (text, model_ids) parsed from --output-format json."""
     cmd = ["claude", "-p", "--model", model, "--allowedTools", ""]
+    if system_mode == "replace":
+        cmd += ["--tools", "", "--disable-slash-commands", "--strict-mcp-config",
+                "--setting-sources", ""]
     if system:
         cmd += ["--system-prompt" if system_mode == "replace" else "--append-system-prompt", system]
     if json_output:
