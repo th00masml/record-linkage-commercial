@@ -170,7 +170,8 @@ def main():
             excl.add((x["person"], x["wave"]))
             n_side += 1
             cands = exp1_idx.get((x["person"], x["wave"]), [])
-            if any(c == x for c in cands):
+            # compare on schema fields only: `rid` is added to the same dicts later
+            if any({k: c[k] for k in FIELDS} == x for c in cands):
                 n_exact += 1
             else:
                 diff = None
@@ -329,9 +330,10 @@ def main():
     for x in elig:
         grp[(x["wave"], x["first"], x["patronym"], x["sex"])].append(x)
     npa = P.groupby("anchor_rid").size()
+    elig_by_rid = {x["rid"]: x for x in elig}
     for i in rs.choice(len(A), size=min(2000, len(A)), replace=False):
         row = A.iloc[i]
-        a = byrid.get(row["rid"]) or next(x for x in elig if x["rid"] == row["rid"])
+        a = elig_by_rid[int(row["rid"])]
         bf = sum(abs(c["birthyear"] - a["birthyear"]) <= MAX_DY
                  for c in grp[(wnext[a["wave"]], a["first"], a["patronym"], a["sex"])])
         assert bf == int(npa.get(a["rid"], 0)), f"candidate set incomplete for {a['rid']}"

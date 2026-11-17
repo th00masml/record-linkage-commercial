@@ -22,3 +22,15 @@ Re-fetch:
 ```bash
 for f in people.csv parishes.csv counties.csv; do curl -sSL --fail -o input/data/raw/$f "https://huggingface.co/datasets/goldpotatoes/ice-id/resolve/main/raw_data/$f"; done
 ```
+
+## Derived candidate pairs (Task 2)
+
+Built by `output/data-analysis/make_candidates.py` (deterministic, seed 0, ~22 s).
+`candidates.csv` and `records.jsonl` are gitignored; regenerate and check:
+
+| File | Bytes | SHA-256 | Committed |
+|---|---|---|---|
+| `derived/candidates.csv` | 51,593,879 | `f658effdc0297f48827d08b983572d0d0c2d1bdbb270dfa516609dcfacd927cf` | no |
+| `derived/records.jsonl` | 137,992,187 | `c9a38448f128813a807a91fcc073b449c2c7d337febcc6e430fa11038852965c` | no |
+| `derived/split.json` | 2,238,958 | `c3f80bf9d68033f0f8be5b3f282062a6a6c9ce272e1ac39f141a4de5ba34b40c` | yes |
+| `derived/candidates_summary.json` | | | yes |

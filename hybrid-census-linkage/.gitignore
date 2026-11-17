@@ -78,3 +78,7 @@ knowledge/_meta/graph/
 
 # Raw ICE-ID (CC-BY 4.0), fetched by Task 1, not committed
 input/data/raw/
+
+# Task 2 derived files > 50 MB; deterministic, regenerate with output/data-analysis/make_candidates.py
+input/data/derived/records.jsonl
+input/data/derived/candidates.csv

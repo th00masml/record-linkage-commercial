@@ -1,0 +1,791 @@
+{
+ "deviations_and_data_notes": [
+  "9038 (person, wave) keys have >1 eligible record (18555 records); kept as-is, an anchor can then have >1 positive candidate and one person >1 anchor per wave.",
+  "files > 50 MB added to .gitignore (regenerable): ['records.jsonl']"
+ ],
+ "load": {
+  "people_rows": 984028,
+  "labelled_rows": 493681,
+  "label_rate": 0.5017,
+  "sequential_drops": {
+   "1_person_empty": 490347,
+   "2_first_empty": 793,
+   "3_patronym_empty": 7238,
+   "4_sex_empty": 2,
+   "5_birthyear_not_int": 772
+  },
+  "eligible_before_exclusion": 484876,
+  "sex_values_among_labelled_raw": {
+   "Kona": 254669,
+   "Karl": 239006,
+   "": 5,
+   "KArl": 1
+  },
+  "parishes_in_lookup": 464,
+  "parishes_without_coordinates": [
+   "462",
+   "463",
+   "464",
+   "465",
+   "466",
+   "467",
+   "468",
+   "469"
+  ],
+  "eligible_recs_parish_id_not_in_lookup": 0,
+  "eligible_recs_county_id_not_in_lookup": 0,
+  "eligible_recs_without_lat_lon": 7586
+ },
+ "exp1_schema_check": {
+  "sides": 400,
+  "exact_dict_match": 400,
+  "mismatches": [],
+  "n_mismatch": 0
+ },
+ "waves": [
+  "1703",
+  "1729",
+  "1801",
+  "1816",
+  "1835",
+  "1840",
+  "1845",
+  "1850",
+  "1855",
+  "1860",
+  "1870",
+  "1880",
+  "1890",
+  "1901",
+  "1910",
+  "1920"
+ ],
+ "n_waves": 16,
+ "exclusion": {
+  "exp1_person_wave_keys": 400,
+  "eligible_records_dropped": 403,
+  "eligible_after_exclusion": 484473
+ },
+ "eligible_per_wave": {
+  "1703": 50311,
+  "1729": 1748,
+  "1801": 8145,
+  "1816": 13005,
+  "1835": 50334,
+  "1840": 41231,
+  "1845": 40951,
+  "1850": 38690,
+  "1855": 35523,
+  "1860": 29633,
+  "1870": 16932,
+  "1880": 16890,
+  "1890": 35301,
+  "1901": 36785,
+  "1910": 42616,
+  "1920": 26378
+ },
+ "duplicates_person_within_wave": {
+  "person_wave_keys_with_gt1_record": 9038,
+  "records_involved": 18555,
+  "max_records_one_key": 6,
+  "per_wave": {
+   "1703": 28,
+   "1729": 31,
+   "1801": 281,
+   "1816": 408,
+   "1835": 522,
+   "1840": 1106,
+   "1845": 984,
+   "1850": 936,
+   "1855": 794,
+   "1860": 922,
+   "1870": 239,
+   "1880": 339,
+   "1890": 248,
+   "1901": 428,
+   "1910": 805,
+   "1920": 967
+  }
+ },
+ "summary": {
+  "overall": {
+   "anchors": 294530,
+   "anchor_persons": 131045,
+   "pairs": 1194338,
+   "positives": 235229,
+   "negatives": 959109,
+   "cand_per_anchor_mean": 4.055,
+   "cand_per_anchor_median": 1.0,
+   "cand_per_anchor_max": 187
+  },
+  "per_split": {
+   "cal": {
+    "anchors": 147479,
+    "anchor_persons": 65522,
+    "pairs": 594131,
+    "positives": 117763,
+    "negatives": 476368,
+    "cand_per_anchor_mean": 4.029,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 187
+   },
+   "test": {
+    "anchors": 147051,
+    "anchor_persons": 65523,
+    "pairs": 600207,
+    "positives": 117466,
+    "negatives": 482741,
+    "cand_per_anchor_mean": 4.082,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 163
+   }
+  },
+  "per_wave_pair": {
+   "1703-1729": {
+    "anchors": 7142,
+    "anchor_persons": 7125,
+    "pairs": 13260,
+    "positives": 1670,
+    "negatives": 11590,
+    "cand_per_anchor_mean": 1.857,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 11,
+    "eligible_anchor_wave_records": 50311,
+    "blocking_recall_all": {
+     "denominator": 1656,
+     "found": 1639,
+     "recall": 0.9897
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 1639,
+     "found": 1639,
+     "recall": 1.0
+    }
+   },
+   "1729-1801": {
+    "anchors": 78,
+    "anchor_persons": 77,
+    "pairs": 81,
+    "positives": 81,
+    "negatives": 0,
+    "cand_per_anchor_mean": 1.038,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 2,
+    "eligible_anchor_wave_records": 1748,
+    "blocking_recall_all": {
+     "denominator": 78,
+     "found": 78,
+     "recall": 1.0
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 78,
+     "found": 78,
+     "recall": 1.0
+    }
+   },
+   "1801-1816": {
+    "anchors": 6084,
+    "anchor_persons": 5848,
+    "pairs": 10414,
+    "positives": 5768,
+    "negatives": 4646,
+    "cand_per_anchor_mean": 1.712,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 30,
+    "eligible_anchor_wave_records": 8145,
+    "blocking_recall_all": {
+     "denominator": 5624,
+     "found": 5508,
+     "recall": 0.9794
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 5524,
+     "found": 5508,
+     "recall": 0.9971
+    }
+   },
+   "1816-1835": {
+    "anchors": 11552,
+    "anchor_persons": 11157,
+    "pairs": 52839,
+    "positives": 10826,
+    "negatives": 42013,
+    "cand_per_anchor_mean": 4.574,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 187,
+    "eligible_anchor_wave_records": 13005,
+    "blocking_recall_all": {
+     "denominator": 10772,
+     "found": 10627,
+     "recall": 0.9865
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 10679,
+     "found": 10627,
+     "recall": 0.9951
+    }
+   },
+   "1835-1840": {
+    "anchors": 40303,
+    "anchor_persons": 39791,
+    "pairs": 276840,
+    "positives": 30268,
+    "negatives": 246572,
+    "cand_per_anchor_mean": 6.869,
+    "cand_per_anchor_median": 2.0,
+    "cand_per_anchor_max": 163,
+    "eligible_anchor_wave_records": 50334,
+    "blocking_recall_all": {
+     "denominator": 29195,
+     "found": 28970,
+     "recall": 0.9923
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 29036,
+     "found": 28970,
+     "recall": 0.9977
+    }
+   },
+   "1840-1845": {
+    "anchors": 33658,
+    "anchor_persons": 32546,
+    "pairs": 194331,
+    "positives": 28363,
+    "negatives": 165968,
+    "cand_per_anchor_mean": 5.774,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 138,
+    "eligible_anchor_wave_records": 41231,
+    "blocking_recall_all": {
+     "denominator": 27327,
+     "found": 27040,
+     "recall": 0.9895
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 27135,
+     "found": 27040,
+     "recall": 0.9965
+    }
+   },
+   "1845-1850": {
+    "anchors": 33002,
+    "anchor_persons": 32015,
+    "pairs": 170088,
+    "positives": 26823,
+    "negatives": 143265,
+    "cand_per_anchor_mean": 5.154,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 121,
+    "eligible_anchor_wave_records": 40951,
+    "blocking_recall_all": {
+     "denominator": 25976,
+     "found": 25683,
+     "recall": 0.9887
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 25765,
+     "found": 25683,
+     "recall": 0.9968
+    }
+   },
+   "1850-1855": {
+    "anchors": 28054,
+    "anchor_persons": 27183,
+    "pairs": 131732,
+    "positives": 22417,
+    "negatives": 109315,
+    "cand_per_anchor_mean": 4.696,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 101,
+    "eligible_anchor_wave_records": 38690,
+    "blocking_recall_all": {
+     "denominator": 22888,
+     "found": 21543,
+     "recall": 0.9412
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 22033,
+     "found": 21543,
+     "recall": 0.9778
+    }
+   },
+   "1855-1860": {
+    "anchors": 27481,
+    "anchor_persons": 26752,
+    "pairs": 116128,
+    "positives": 23512,
+    "negatives": 92616,
+    "cand_per_anchor_mean": 4.226,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 92,
+    "eligible_anchor_wave_records": 35523,
+    "blocking_recall_all": {
+     "denominator": 23080,
+     "found": 22380,
+     "recall": 0.9697
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 22550,
+     "found": 22380,
+     "recall": 0.9925
+    }
+   },
+   "1860-1870": {
+    "anchors": 15108,
+    "anchor_persons": 14422,
+    "pairs": 42898,
+    "positives": 10095,
+    "negatives": 32803,
+    "cand_per_anchor_mean": 2.839,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 52,
+    "eligible_anchor_wave_records": 29633,
+    "blocking_recall_all": {
+     "denominator": 9981,
+     "found": 9814,
+     "recall": 0.9833
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 9865,
+     "found": 9814,
+     "recall": 0.9948
+    }
+   },
+   "1870-1880": {
+    "anchors": 11806,
+    "anchor_persons": 11589,
+    "pairs": 25572,
+    "positives": 10258,
+    "negatives": 15314,
+    "cand_per_anchor_mean": 2.166,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 34,
+    "eligible_anchor_wave_records": 16932,
+    "blocking_recall_all": {
+     "denominator": 10032,
+     "found": 9926,
+     "recall": 0.9894
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 9949,
+     "found": 9926,
+     "recall": 0.9977
+    }
+   },
+   "1880-1890": {
+    "anchors": 10992,
+    "anchor_persons": 10721,
+    "pairs": 21492,
+    "positives": 7998,
+    "negatives": 13494,
+    "cand_per_anchor_mean": 1.955,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 33,
+    "eligible_anchor_wave_records": 16890,
+    "blocking_recall_all": {
+     "denominator": 7854,
+     "found": 7727,
+     "recall": 0.9838
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 7756,
+     "found": 7727,
+     "recall": 0.9963
+    }
+   },
+   "1890-1901": {
+    "anchors": 16291,
+    "anchor_persons": 16104,
+    "pairs": 26185,
+    "positives": 13096,
+    "negatives": 13089,
+    "cand_per_anchor_mean": 1.607,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 43,
+    "eligible_anchor_wave_records": 35301,
+    "blocking_recall_all": {
+     "denominator": 12845,
+     "found": 12685,
+     "recall": 0.9875
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 12707,
+     "found": 12685,
+     "recall": 0.9983
+    }
+   },
+   "1901-1910": {
+    "anchors": 25170,
+    "anchor_persons": 24857,
+    "pairs": 59775,
+    "positives": 20317,
+    "negatives": 39458,
+    "cand_per_anchor_mean": 2.375,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 36,
+    "eligible_anchor_wave_records": 36785,
+    "blocking_recall_all": {
+     "denominator": 19677,
+     "found": 19490,
+     "recall": 0.9905
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 19508,
+     "found": 19490,
+     "recall": 0.9991
+    }
+   },
+   "1910-1920": {
+    "anchors": 27809,
+    "anchor_persons": 27209,
+    "pairs": 52703,
+    "positives": 23737,
+    "negatives": 28966,
+    "cand_per_anchor_mean": 1.895,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 26,
+    "eligible_anchor_wave_records": 42616,
+    "blocking_recall_all": {
+     "denominator": 22841,
+     "found": 22680,
+     "recall": 0.993
+    },
+    "blocking_recall_kept_anchors": {
+     "denominator": 22697,
+     "found": 22680,
+     "recall": 0.9993
+    }
+   }
+  },
+  "per_split_wave_pair": {
+   "cal:1703-1729": {
+    "anchors": 3552,
+    "anchor_persons": 3542,
+    "pairs": 6565,
+    "positives": 829,
+    "negatives": 5736,
+    "cand_per_anchor_mean": 1.848,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 11
+   },
+   "test:1703-1729": {
+    "anchors": 3590,
+    "anchor_persons": 3583,
+    "pairs": 6695,
+    "positives": 841,
+    "negatives": 5854,
+    "cand_per_anchor_mean": 1.865,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 11
+   },
+   "cal:1729-1801": {
+    "anchors": 32,
+    "anchor_persons": 32,
+    "pairs": 32,
+    "positives": 32,
+    "negatives": 0,
+    "cand_per_anchor_mean": 1.0,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 1
+   },
+   "test:1729-1801": {
+    "anchors": 46,
+    "anchor_persons": 45,
+    "pairs": 49,
+    "positives": 49,
+    "negatives": 0,
+    "cand_per_anchor_mean": 1.065,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 2
+   },
+   "cal:1801-1816": {
+    "anchors": 3105,
+    "anchor_persons": 2973,
+    "pairs": 5201,
+    "positives": 2925,
+    "negatives": 2276,
+    "cand_per_anchor_mean": 1.675,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 30
+   },
+   "test:1801-1816": {
+    "anchors": 2979,
+    "anchor_persons": 2875,
+    "pairs": 5213,
+    "positives": 2843,
+    "negatives": 2370,
+    "cand_per_anchor_mean": 1.75,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 30
+   },
+   "cal:1816-1835": {
+    "anchors": 5783,
+    "anchor_persons": 5594,
+    "pairs": 26814,
+    "positives": 5416,
+    "negatives": 21398,
+    "cand_per_anchor_mean": 4.637,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 187
+   },
+   "test:1816-1835": {
+    "anchors": 5769,
+    "anchor_persons": 5563,
+    "pairs": 26025,
+    "positives": 5410,
+    "negatives": 20615,
+    "cand_per_anchor_mean": 4.511,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 124
+   },
+   "cal:1835-1840": {
+    "anchors": 20197,
+    "anchor_persons": 19932,
+    "pairs": 138253,
+    "positives": 15187,
+    "negatives": 123066,
+    "cand_per_anchor_mean": 6.845,
+    "cand_per_anchor_median": 2.0,
+    "cand_per_anchor_max": 163
+   },
+   "test:1835-1840": {
+    "anchors": 20106,
+    "anchor_persons": 19859,
+    "pairs": 138587,
+    "positives": 15081,
+    "negatives": 123506,
+    "cand_per_anchor_mean": 6.893,
+    "cand_per_anchor_median": 2.0,
+    "cand_per_anchor_max": 163
+   },
+   "cal:1840-1845": {
+    "anchors": 16934,
+    "anchor_persons": 16372,
+    "pairs": 96088,
+    "positives": 14246,
+    "negatives": 81842,
+    "cand_per_anchor_mean": 5.674,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 138
+   },
+   "test:1840-1845": {
+    "anchors": 16724,
+    "anchor_persons": 16174,
+    "pairs": 98243,
+    "positives": 14117,
+    "negatives": 84126,
+    "cand_per_anchor_mean": 5.874,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 138
+   },
+   "cal:1845-1850": {
+    "anchors": 16546,
+    "anchor_persons": 16071,
+    "pairs": 83584,
+    "positives": 13376,
+    "negatives": 70208,
+    "cand_per_anchor_mean": 5.052,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 121
+   },
+   "test:1845-1850": {
+    "anchors": 16456,
+    "anchor_persons": 15944,
+    "pairs": 86504,
+    "positives": 13447,
+    "negatives": 73057,
+    "cand_per_anchor_mean": 5.257,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 121
+   },
+   "cal:1850-1855": {
+    "anchors": 14027,
+    "anchor_persons": 13605,
+    "pairs": 66075,
+    "positives": 11195,
+    "negatives": 54880,
+    "cand_per_anchor_mean": 4.711,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 101
+   },
+   "test:1850-1855": {
+    "anchors": 14027,
+    "anchor_persons": 13578,
+    "pairs": 65657,
+    "positives": 11222,
+    "negatives": 54435,
+    "cand_per_anchor_mean": 4.681,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 101
+   },
+   "cal:1855-1860": {
+    "anchors": 13768,
+    "anchor_persons": 13399,
+    "pairs": 57641,
+    "positives": 11796,
+    "negatives": 45845,
+    "cand_per_anchor_mean": 4.187,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 92
+   },
+   "test:1855-1860": {
+    "anchors": 13713,
+    "anchor_persons": 13353,
+    "pairs": 58487,
+    "positives": 11716,
+    "negatives": 46771,
+    "cand_per_anchor_mean": 4.265,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 92
+   },
+   "cal:1860-1870": {
+    "anchors": 7563,
+    "anchor_persons": 7185,
+    "pairs": 21128,
+    "positives": 5105,
+    "negatives": 16023,
+    "cand_per_anchor_mean": 2.794,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 52
+   },
+   "test:1860-1870": {
+    "anchors": 7545,
+    "anchor_persons": 7237,
+    "pairs": 21770,
+    "positives": 4990,
+    "negatives": 16780,
+    "cand_per_anchor_mean": 2.885,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 52
+   },
+   "cal:1870-1880": {
+    "anchors": 5944,
+    "anchor_persons": 5841,
+    "pairs": 12667,
+    "positives": 5137,
+    "negatives": 7530,
+    "cand_per_anchor_mean": 2.131,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 34
+   },
+   "test:1870-1880": {
+    "anchors": 5862,
+    "anchor_persons": 5748,
+    "pairs": 12905,
+    "positives": 5121,
+    "negatives": 7784,
+    "cand_per_anchor_mean": 2.201,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 34
+   },
+   "cal:1880-1890": {
+    "anchors": 5467,
+    "anchor_persons": 5332,
+    "pairs": 10514,
+    "positives": 3948,
+    "negatives": 6566,
+    "cand_per_anchor_mean": 1.923,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 33
+   },
+   "test:1880-1890": {
+    "anchors": 5525,
+    "anchor_persons": 5389,
+    "pairs": 10978,
+    "positives": 4050,
+    "negatives": 6928,
+    "cand_per_anchor_mean": 1.987,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 33
+   },
+   "cal:1890-1901": {
+    "anchors": 8065,
+    "anchor_persons": 7967,
+    "pairs": 13096,
+    "positives": 6509,
+    "negatives": 6587,
+    "cand_per_anchor_mean": 1.624,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 43
+   },
+   "test:1890-1901": {
+    "anchors": 8226,
+    "anchor_persons": 8137,
+    "pairs": 13089,
+    "positives": 6587,
+    "negatives": 6502,
+    "cand_per_anchor_mean": 1.591,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 43
+   },
+   "cal:1901-1910": {
+    "anchors": 12530,
+    "anchor_persons": 12359,
+    "pairs": 29913,
+    "positives": 10127,
+    "negatives": 19786,
+    "cand_per_anchor_mean": 2.387,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 36
+   },
+   "test:1901-1910": {
+    "anchors": 12640,
+    "anchor_persons": 12498,
+    "pairs": 29862,
+    "positives": 10190,
+    "negatives": 19672,
+    "cand_per_anchor_mean": 2.362,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 36
+   },
+   "cal:1910-1920": {
+    "anchors": 13966,
+    "anchor_persons": 13647,
+    "pairs": 26560,
+    "positives": 11935,
+    "negatives": 14625,
+    "cand_per_anchor_mean": 1.902,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 26
+   },
+   "test:1910-1920": {
+    "anchors": 13843,
+    "anchor_persons": 13562,
+    "pairs": 26143,
+    "positives": 11802,
+    "negatives": 14341,
+    "cand_per_anchor_mean": 1.889,
+    "cand_per_anchor_median": 1.0,
+    "cand_per_anchor_max": 26
+   }
+  },
+  "blocking_recall_all": {
+   "denominator": 229826,
+   "found": 225790,
+   "recall": 0.9824
+  },
+  "blocking_recall_kept_anchors": {
+   "denominator": 226921,
+   "found": 225790,
+   "recall": 0.995
+  },
+  "anchors_without_candidates": 163565,
+  "anchors_with_gt1_positive": 8841,
+  "split_persons": {
+   "cal": 65522,
+   "test": 65523
+  }
+ },
+ "unit_checks": "all passed (exclusion, split disjointness, blocking rule, label, pair_id contiguity, no duplicate pairs, brute-force completeness on 2000 anchors, b2 runs on 1000 sampled pairs)",
+ "file_sizes_bytes": {
+  "records.jsonl": 137992187,
+  "candidates.csv": 51593879,
+  "split.json": 2238958
+ },
+ "gitignored_large_files": [
+  "records.jsonl"
+ ],
+ "records_written": 381812,
+ "seed": 0,
+ "wall_time_s": 21.6
+}
