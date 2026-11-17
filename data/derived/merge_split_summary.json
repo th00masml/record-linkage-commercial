@@ -1,0 +1,174 @@
+{
+ "waves": [
+  1835,
+  1840,
+  1845,
+  1850,
+  1855,
+  1860
+ ],
+ "window": 2,
+ "seed": 0,
+ "suspect_persons_dropped": 6356,
+ "drops": {
+  "window_not_2": 6412830,
+  "unlabelled_in_pair": 2995,
+  "split_probable_undermerge": 222,
+  "suspect_person": 61,
+  "distinct_probable_undermerge": 3
+ },
+ "pool": {
+  "merge": 4777,
+  "split": 323,
+  "distinct": 115
+ },
+ "merge_cells_unmatched": 26,
+ "pool_desc": {
+  "merge": {
+   "n": 4777,
+   "wave_gap": {
+    "5": 4176,
+    "10": 357,
+    "15": 157,
+    "20": 56,
+    "25": 31
+   },
+   "by_diff": {
+    "0": 3208,
+    "1": 1427,
+    "2": 142
+   },
+   "parish_same": 0.798,
+   "farm_same": 0.587,
+   "visible": {
+    "none": 3526,
+    "confirms": 1251
+   },
+   "label_strength": {
+    "curator_link": 4777
+   },
+   "name_universe_n_median": 5
+  },
+  "split": {
+   "n": 323,
+   "wave_gap": {
+    "5": 240,
+    "10": 68,
+    "15": 12,
+    "20": 2,
+    "25": 1
+   },
+   "by_diff": {
+    "0": 61,
+    "1": 172,
+    "2": 90
+   },
+   "parish_same": 0.347,
+   "farm_same": 0.0,
+   "visible": {
+    "refutes_same": 28,
+    "none": 295
+   },
+   "label_strength": {
+    "kin_differs": 28,
+    "unlinked_only": 295
+   },
+   "name_universe_n_median": 4
+  },
+  "distinct": {
+   "n": 115,
+   "wave_gap": {
+    "0": 115
+   },
+   "by_diff": {
+    "0": 36,
+    "1": 36,
+    "2": 43
+   },
+   "parish_same": 0.061,
+   "farm_same": 0.0,
+   "visible": {
+    "none": 103,
+    "refutes_same": 12
+   },
+   "label_strength": {
+    "same_wave": 115
+   },
+   "name_universe_n_median": 34
+  }
+ },
+ "sample_desc": {
+  "merge": {
+   "n": 174,
+   "wave_gap": {
+    "5": 135,
+    "10": 33,
+    "15": 3,
+    "20": 2,
+    "25": 1
+   },
+   "by_diff": {
+    "0": 35,
+    "1": 113,
+    "2": 26
+   },
+   "parish_same": 0.368,
+   "farm_same": 0.0,
+   "visible": {
+    "none": 156,
+    "confirms": 18
+   },
+   "label_strength": {
+    "curator_link": 174
+   },
+   "name_universe_n_median": 4
+  },
+  "split": {
+   "n": 174,
+   "wave_gap": {
+    "5": 135,
+    "10": 33,
+    "15": 3,
+    "20": 2,
+    "25": 1
+   },
+   "by_diff": {
+    "0": 35,
+    "1": 113,
+    "2": 26
+   },
+   "parish_same": 0.368,
+   "farm_same": 0.0,
+   "visible": {
+    "none": 155,
+    "refutes_same": 19
+   },
+   "label_strength": {
+    "unlinked_only": 155,
+    "kin_differs": 19
+   },
+   "name_universe_n_median": 5
+  },
+  "distinct": {
+   "n": 115,
+   "wave_gap": {
+    "0": 115
+   },
+   "by_diff": {
+    "0": 36,
+    "1": 36,
+    "2": 43
+   },
+   "parish_same": 0.061,
+   "farm_same": 0.0,
+   "visible": {
+    "refutes_same": 12,
+    "none": 103
+   },
+   "label_strength": {
+    "same_wave": 115
+   },
+   "name_universe_n_median": 34
+  }
+ }
+}
