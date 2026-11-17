@@ -244,4 +244,17 @@ The code and cached model outputs are in this repository (code MIT; derived
 data CC-BY 4.0). `people.csv` SHA-256 `81e30e5c…5d49d1`. Every number above is
 recomputed by the scripts in `README.md`.
 
+## Use of AI tools
+
+The research questions, the choice of what to test, the decisions at each
+step and the architecture of the code are the author's; the author also wrote
+and refactored code. Claude (Anthropic) was used as a research and coding
+assistant under the author's direction: it wrote and ran analysis code,
+proposed parts of the study design, and drafted the documentation and this manuscript. The author is
+responsible for the content. Each pre-registration protocol was committed
+before the analysis it governs.
+
+Claude models are also instruments under test in this study; their use as
+an assistant is separate from, and did not touch, their scored outputs.
+
 ## References

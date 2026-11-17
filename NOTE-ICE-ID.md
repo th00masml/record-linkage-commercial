@@ -163,6 +163,16 @@ and its reported results were not examined, because the companion paper was
 not available to us. The evaluation unit is the pair, so persons with many
 duplicate records weigh more, as they do in the benchmark.
 
+## Use of AI tools
+
+The research questions, the choice of what to test, the decisions at each
+step and the architecture of the code are the author's; the author also wrote
+and refactored code. Claude (Anthropic) was used as a research and coding
+assistant under the author's direction: it wrote and ran analysis code,
+proposed parts of the audit design, and drafted the documentation and this note. The author is
+responsible for the content. Each pre-registration protocol was committed
+before the analysis it governs.
+
 ## Reproduction
 
 `audit/PROTOCOL*.md` (pre-registrations), `audit/RESULTS*.md`,
