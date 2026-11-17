@@ -1,8 +1,16 @@
-"""Build readable records and the deterministic pair set.
-Positive = same person seen in two different census waves (earliest vs latest
-= maximum temporal drift). Hard negative = two DIFFERENT people who share the
-same first name + patronym + sex and were born within 1 year (Icelandic
-homonyms -- Galton's 'little variety of surnames'). No model calls here.
+"""v1 pair set (preregistered; FROZEN so the cached model scores stay valid).
+Positive = same person seen in two census waves, the two appearances with the
+smallest wave gap. Hard negative = two DIFFERENT people who share the same first
+name + patronym + sex and were born within 1 year (Icelandic homonyms -- Galton's
+'little variety of surnames'). No model calls here.
+
+Known design problems, kept as-is for reproducibility and fixed in
+prepare_pairs_v2.py (see RESULTS.md):
+  * selection is "first N in sort order", not random: positives are the lowest
+    person ids as strings, and all 100 negatives have first names starting with "A";
+  * negatives come from any two waves, positives from adjacent ones, so the census
+    gap alone separates the classes (AUC 0.83 on this set);
+  * `partner_id` is the partner's expert-curated person id (gold-derived).
 """
 import csv
 import json
