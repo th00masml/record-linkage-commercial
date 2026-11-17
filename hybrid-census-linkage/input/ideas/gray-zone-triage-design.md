@@ -4,7 +4,7 @@ type: design
 created: 2026-11-17
 updated: 2026-11-17
 tags: [entity-resolution, record-linkage, historical-census, iceland, llm, fellegi-sunter, hybrid]
-status: draft
+status: approved
 author: mixed
 ---
 
