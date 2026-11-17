@@ -1,0 +1,20 @@
+{
+ "task": "gray-zone-triage Task 5",
+ "splink": "5.0.0",
+ "seed": 0,
+ "lambda0": 0.0001,
+ "records_in_model": 235603,
+ "cal_candidate_pairs_scored": 594131,
+ "lambda_inblock": 0.17623863359318473,
+ "lambda_iterations": 7,
+ "untrained_levels": [],
+ "gray_scored": {
+  "cal": 329,
+  "test": 600
+ },
+ "D_fs_share": {
+  "cal": 1.0,
+  "test": 1.0
+ },
+ "wall_time_s": 177.7
+}

@@ -48,3 +48,12 @@ author: llm
 - Test sample: 5,112 anchor records (4,895 anchor persons), 22,258 pairs; regions accept 2,838 / reject 18,820 / gray 600 (L_B2 = 0.027). Selection used B2 scores and frozen thresholds only.
 - Review (main context): gray files carry only pair_id, a, b (no labels, partner_id blank); every taken anchor complete; gray_test equals the sample's gray region; no overlap between calibration and test gray pairs. 78% of test pairs come from waves 1835-1855 (descriptive, follows the name-frequency distribution).
 - `labels_test.jsonl` is a mechanical copy for Task 7; no statistic on test labels has been computed.
+
+## [2026-11-17] analysis | gray-zone-triage Task 5 (Fellegi-Sunter, Splink 5.0.0)
+- Implementation decisions taken before any outcome (plan did not specify them):
+  - Two EM passes, because Splink cannot estimate m for a field in the EM blocking rule: pass 1 blocks on name, patronym, sex, adjacent wave, same parish (trains birth year); pass 2 blocks exactly like the candidates (trains parish, county, farm, distance).
+  - Prior: the frozen rule is D_FS = 1 if match probability >= 0.5, which depends on the prior. Splink's default prior (1e-4 per random pair) would put almost every candidate pair below 0.5. The prior used is the label-free EM fixed point on the 594,131 calibration candidate pairs: lambda_b = 0.1762 (true calibration base rate, not used: 0.189).
+- Result: all levels trained; 929 gray pairs scored; score_pair agrees with predict() on calibration gray pairs.
+- Finding (no labels used): inside the gray zone p_FS has median 1.0 and minimum 0.62, so D_FS = 1 for all 329 calibration and 600 test gray pairs. The binary decision is constant, its likelihood ratio will be about 1 and R_FS will be about 0 by construction. H2 as registered is therefore a weak comparator.
+- 2026-11-17 · note · plan=gray-zone-triage · Registered H2 kept unchanged. Task 7 adds an EXPLORATORY H2 variant with the D_FS threshold chosen on the calibration gray zone; it is reported as exploratory and does not enter the verdict. The same degeneracy can affect the LLM decision; under the registration that would show up as R_LLM near 0 and a KILLED verdict, which is the honest outcome.
+- Review (main context): spec matches Task 5 and Amendment 1 (partner comparison dropped, u by random sampling, m by EM on calibration candidates only, D_FS at 0.5, outputs written). Quality notes: u uses 1e6 random pairs (Splink suggests more; no level untrained); the constant D_FS is the substantive issue above.
