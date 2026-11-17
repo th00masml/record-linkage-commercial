@@ -26,6 +26,26 @@ No LLM comes near the +0.05 margin. On clean structured fields, use a rule.
 - Numbers and verdict: `RESULTS.md`
 - Licenses, data hash, model/tool versions: `DATA-LICENSES.md`; code is MIT (`LICENSE`)
 
+## Repository map
+
+Four pieces of work share this repository and the same ICE-ID data.
+
+| part | what it is | where | start with |
+|---|---|---|---|
+| 1. LLM vs rule | The main study: preregistered v1, post-hoc v2. Finished, verdict KILLED-AT-4. | `src/`, `tests/`, `outputs/`, `data/derived/`, `PROBLEM.md`, `RESULTS.md`, `MANUSCRIPT.md`, `references.bib` | `PROBLEM.md`, then `RESULTS.md` |
+| 2. ICE-ID label audit | Audit of the within-wave identity labels and what the label noise does to method scores. Four protocols, each committed before its analysis. | `audit/`, `NOTE-ICE-ID.md`, `requirements-audit.txt` | `NOTE-ICE-ID.md`, then `audit/README.md` |
+| 3. Gray-zone triage | Follow-up: send only the rule's uncertain band to a local LLM. Pre-registered plan, in progress; `make_candidates.py` is unreviewed. | `hybrid-census-linkage/` | `hybrid-census-linkage/input/ideas/gray-zone-triage-plan.md` |
+| 4. Merge / split items | Item set for a look-or-ask agent study. Built; nothing else here uses it yet. | `MERGE_SPLIT.md`, `src/merge_split_pairs.py`, `data/derived/merge_split*` | `MERGE_SPLIT.md` |
+
+Background reading for parts 1 and 3: `research/llm-vs-rules-er-brief.md`.
+
+`hybrid-census-linkage/` was scaffolded from a research-wiki template. Its
+`README.md`, `knowledge/` example pages, `output/article/`, `output/book/`
+and `output/presentation/` are still the template's; the project-specific content
+is `input/ideas/` and `output/data-analysis/`.
+
+Raw data (`data/raw/`) is not in the repository; see `DATA-LICENSES.md`.
+
 ## Run it
 
 ```
