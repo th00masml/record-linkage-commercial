@@ -75,3 +75,6 @@ knowledge/_meta/graph/
 
 # Keep directory structure
 !**/.gitkeep
+
+# Raw ICE-ID (CC-BY 4.0), fetched by Task 1, not committed
+input/data/raw/
