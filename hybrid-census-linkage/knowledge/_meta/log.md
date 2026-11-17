@@ -63,3 +63,10 @@ author: llm
 - Test labels stay sealed until `raw_qwen_gray.jsonl` is committed: computing B2 or FS on the test split earlier would reveal criteria 3/4 (they depend on B2's auto regions) before the LLM run.
 - Dry run (`--dry-run`: calibration sample plays "test", random decisions play the LLM, nothing written): pipeline runs end to end in 8 s. FS gives R = 0 as predicted (constant D_FS). Random decisions give R = 0.09 and missed-match 0.052 > beta, i.e. noise alone moves borderline pairs and the beta guard catches it; part of that R comes from estimating sens/spec on the same pairs in the dry run.
 - Review (main context): definitions checked line by line against Hypothesis, Falsification Criteria, Frozen parameters and Amendment 1.
+
+## [2026-11-17] result | gray-zone-triage Tasks 6-8
+- Task 6 (researcher's machine, Windows): qwen2.5:14b via Ollama 0.40.2, digest 7cdf5a0187d5; 4,645 samples, all parsed, all 929 gray pairs x 5 seeds. Two plumbing fixes to score_gray.py before the run (OLLAMA_HOST without scheme; explicit UTF-8 file I/O); prompt, sampling and parsing unchanged.
+- Task 7: test split unsealed after the LLM output commit (ac1134d); commit order thresholds -> gray_test -> LLM verified by analyze.py.
+- VERDICT: KILLED. R = 0.047, 95% CI [0.030, 0.066] (anchor persons) vs registered 0.20; false-match 0.033, missed-match 0.049 (both within limits). LLM says "same" for 96% of band pairs; sens 0.976, spec 0.111; resolves 28 of 600 gray pairs.
+- Registered H2 holds formally but is uninformative (constant D_FS, see Task 5 entry). Exploratory FS with Youden threshold: R = 0.090 [0.066, 0.111], beats the LLM, but missed-match 0.0507 > beta.
+- Task 8: `output/data-analysis/RESULTS.md` and `knowledge/synthesis/gray-zone-triage-results.md` (status: review) written.
