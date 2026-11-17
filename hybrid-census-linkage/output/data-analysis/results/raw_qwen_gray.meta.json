@@ -1,0 +1,17 @@
+{
+  "ollama_version": "0.40.2",
+  "model": "qwen2.5:14b",
+  "model_digest": "7cdf5a0187d5c58cc5d369b255592f7841d1c4696d45a8c8a9489440385b22f6",
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "options": {
+    "temperature": 0.7,
+    "top_p": 1.0,
+    "num_predict": 12
+  }
+}
