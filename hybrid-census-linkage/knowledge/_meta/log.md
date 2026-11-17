@@ -34,3 +34,11 @@ author: llm
 ## [2026-11-17] amendment | gray-zone-triage Amendment 1 (pre-data)
 - 2026-11-17 · deviation · plan=gray-zone-triage · Researcher approved Amendment 1 (see plan): partner_id blanked in all inputs (gold-standard leakage), bootstrap unit = anchor persons, added name-block CI / duplicate-key / anchor-weighted sensitivity, end-to-end misses and per-wave descriptives, case-insensitive sex, storage format recorded. H1 and frozen parameters unchanged. No threshold, LLM output or test outcome existed at the time.
 - Task 2 re-run: 1,194,339 pairs (+1 from `KArl`), split unchanged; partner rule would have fired on 24,908 pairs (2.09%), 10.12% of positives. All unit checks pass.
+
+## [2026-11-17] review | gray-zone-triage Task 3
+- Spec review (subagent): PASS. Independent refit reproduces sample, thresholds and region counts; coefficients differ at the 5th decimal (sklearn lbfgs tolerance), region membership identical. Later tasks apply the saved b0/b1 (equivalently the saved B2 cut-offs), never a refit.
+- Quality review: subagent stopped by the researcher; review done in the main context instead, at the researcher's request. Findings, none changing H1 or frozen values:
+  - Optimism: thresholds are set and checked on the same calibration sample; the calibration missed-match rate is exactly 0.0500, so the realized test rate can exceed beta and trigger criterion 4 regardless of the LLM. Reported as a risk, not corrected.
+  - Small gray zone: 329 calibration gray pairs, about 79 negatives, so LLM specificity (and the strength of the Bayesian update) is estimated imprecisely. Report the sens/spec CIs in Task 7.
+  - Operating point: about 22% of calibration positives fall in auto-reject at beta = 0.05 (beta bounds the missed-match share among rejected pairs, not recall). Report recall of auto-decisions and end-to-end misses explicitly (Amendment 1, item 4).
+- From Task 4 on, reviews are done in the main context and recorded here.
