@@ -17,6 +17,7 @@ import splink.comparison_library as cl
 from splink import DuckDBAPI, Linker, SettingsCreator, block_on
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(os.path.dirname(HERE), "data")
 sys.path.insert(0, HERE)
 import noise_effect as ne
 from evidence import lab
@@ -103,7 +104,7 @@ def extra(B):
     recs = records(B["df"], B["par"])
     print(f"training Splink on {len(recs)} labelled rows (no labels used)")
     linker = train(recs)
-    model = linker.misc.save_model_to_json(os.path.join(HERE, "splink_within_wave_model.json"), overwrite=True)
+    model = linker.misc.save_model_to_json(os.path.join(DATA, "splink_within_wave_model.json"), overwrite=True)
     S = {"Splink": score_pairs(model, recs, B["pairs"])}
     # leakage check: drop curated kin-ID features
     X, y, g = B["X"], B["y_ice"], B["groups"]
@@ -120,7 +121,7 @@ def extra(B):
 
 def analysis():
     """Paired leads and linked shares, as in noise_effect_extra.py, for the p4 methods."""
-    d = np.load(os.path.join(HERE, "noise_effect_scores_p4.npz"), allow_pickle=True)
+    d = np.load(os.path.join(DATA, "noise_effect_scores_p4.npz"), allow_pickle=True)
     idx, yI, yA, st, w, y_ice, y_rule = (d[k] for k in ["idx", "yI", "yA", "st", "w", "y_ice", "y_rule"])
     S = {k[2:]: d[k] for k in d.files if k.startswith("S_")}
     rng = np.random.default_rng(0)
@@ -148,7 +149,7 @@ def analysis():
         f1 = 2 * p * r / np.maximum(p + r, 1e-12)
         out["linked_share_of_over_merges"][m] = shares(s, t[np.argmax(f1[:-1])])
     out["linked_share_of_over_merges"]["Splink@p0.5"] = shares(S["Splink"][idx], 0.0)  # match weight 0 = p 0.5
-    json.dump(out, open(os.path.join(HERE, "splink_p4_extra.json"), "w"), indent=1)
+    json.dump(out, open(os.path.join(DATA, "splink_p4_extra.json"), "w"), indent=1)
     print(json.dumps(out, indent=1))
 
 

@@ -5,7 +5,7 @@ ages, and which row the person's other-wave appearances continue."""
 import itertools, json, math, os, sys
 import pandas as pd
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RAW = os.path.join(ROOT, "data/raw")
 
 def lab(p): p = p.strip(); return bool(p) and p.lower() != "nan"

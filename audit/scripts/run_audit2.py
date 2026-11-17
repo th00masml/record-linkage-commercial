@@ -6,6 +6,7 @@ from evidence import load
 from evidence2 import all_pairs, evidence2
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(os.path.dirname(HERE), "data")
 EVER = {"G", "E", "S"}
 
 def verdict(e):
@@ -34,14 +35,14 @@ def wilson(k, n, z=1.96):
 def main():
     df, par = load()
     _, dups = all_pairs(df)
-    rest = [tuple(x) for x in json.load(open(os.path.join(HERE, "remaining_pairs.json")))]
+    rest = [tuple(x) for x in json.load(open(os.path.join(DATA, "remaining_pairs.json")))]
     sample = random.Random(0).sample(rest, 100)
     out = []
     for c in sample:
         e = evidence2(df, par, dups, *c)
         e["verdict"], e["rule"] = verdict(e)
         out.append(e)
-    with open(os.path.join(HERE, "audit2_sample.jsonl"), "w") as f:
+    with open(os.path.join(DATA, "audit2_sample.jsonl"), "w") as f:
         for e in out: f.write(json.dumps(e, ensure_ascii=False, default=str) + "\n")
     cnt = Counter(e["verdict"] for e in out); k = cnt["over_merge"]
     # stratified estimate over all within-wave positives (audit 1 rule: 35/50)
@@ -52,7 +53,7 @@ def main():
     res = {"n": 100, "counts": dict(cnt), "rules_fired": dict(Counter(e["rule"] for e in out if e["rule"])),
            "over_merge_share": k/100, "wilson95": wilson(k, 100),
            "stratified_all_within_wave": {"estimate": round(est, 3), "ci95": [round(est-1.96*se, 3), round(est+1.96*se, 3)]}}
-    json.dump(res, open(os.path.join(HERE, "rule_results2.json"), "w"), indent=1)
+    json.dump(res, open(os.path.join(DATA, "rule_results2.json"), "w"), indent=1)
     print(json.dumps(res, indent=1))
 
 if __name__ == "__main__":

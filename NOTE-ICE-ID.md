@@ -175,7 +175,10 @@ protocol was committed before the analysis it governs.
 
 ## Reproduction
 
-`audit/PROTOCOL*.md` (pre-registrations), `audit/RESULTS*.md`,
-`audit/run_audit.py`, `audit/run_audit2.py`, `audit/noise_effect.py`,
-`audit/splink_within_wave.py`. Data: ICE-ID `raw_data/people.csv`,
+`audit/protocols/PROTOCOL*.md` (pre-registrations),
+`audit/results/RESULTS*.md`, `audit/scripts/run_audit.py`,
+`audit/scripts/run_audit2.py`, `audit/scripts/noise_effect.py`,
+`audit/scripts/splink_within_wave.py`; layout and run order in
+`audit/README.md`. The pre-registration commits listed above predate this
+layout, so in them the same files sit directly in `audit/`. Data: ICE-ID `raw_data/people.csv`,
 `parishes.csv`, `counties.csv` from Hugging Face (goldpotatoes/ice-id).

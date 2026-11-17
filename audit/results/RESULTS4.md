@@ -1,9 +1,10 @@
 # Results 4: Splink on the within-wave task, and the kin-ID leakage check
 
-Protocol: `PROTOCOL4.md` (committed before scoring). Code:
-`splink_within_wave.py` (reuses `noise_effect.py`). Numbers:
-`noise_effect_results_p4.json`, `splink_p4_extra.json`; trained model
-`splink_within_wave_model.json`. Splink 4.0.17, DuckDB 1.x/2.0, trained on
+Protocol: `../protocols/PROTOCOL4.md` (committed before scoring). Code:
+`../scripts/splink_within_wave.py` (reuses `../scripts/noise_effect.py`).
+Numbers: `../data/noise_effect_results_p4.json`,
+`../data/splink_p4_extra.json`; trained model
+`../data/splink_within_wave_model.json`. Splink 4.0.17, DuckDB 1.x/2.0, trained on
 493,681 labelled rows with no labels and no curated IDs.
 
 ## AUC, primary (audited sample, n = 437) and secondary (rule-cleaned, n = 30,700)

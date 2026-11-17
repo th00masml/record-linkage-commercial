@@ -1,8 +1,8 @@
 # Audit 2 results: random within-wave positives outside the conflict stratum
 
-Protocol: `PROTOCOL2.md` (committed before the sample was inspected).
-Code: `evidence2.py`, `run_audit2.py`. Items, verdicts, manual reasons:
-`audit2_sample.jsonl`. Internal evidence only (people.csv).
+Protocol: `../protocols/PROTOCOL2.md` (committed before the sample was
+inspected). Code: `../scripts/evidence2.py`, `../scripts/run_audit2.py`.
+Items, verdicts, manual reasons: `../data/audit2_sample.jsonl`. Internal evidence only (people.csv).
 
 ## Primary (pre-registered rules)
 

@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from evidence import load, evidence
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(os.path.dirname(HERE), "data")
 
 def plausible(p, lo, hi):
     return p is None or p.get("age_gap") is None or lo <= p["age_gap"] <= hi
@@ -36,7 +37,7 @@ def wilson(k, n, z=1.96):
 
 def main():
     df, par = load()
-    cp = json.load(open(os.path.join(HERE, "conflict_pairs.json")))
+    cp = json.load(open(os.path.join(DATA, "conflict_pairs.json")))
     first = {}
     for c in cp:
         first.setdefault(c[0], c)
@@ -47,14 +48,14 @@ def main():
         e = evidence(df, par, *first[p])
         e["verdict"] = verdict(e)
         out.append(e)
-    with open(os.path.join(HERE, "audit_sample.jsonl"), "w") as f:
+    with open(os.path.join(DATA, "audit_sample.jsonl"), "w") as f:
         for e in out:
             f.write(json.dumps(e, ensure_ascii=False, default=str) + "\n")
     from collections import Counter
     c = Counter(e["verdict"] for e in out)
     k = c["over_merge"]; lo, hi = wilson(k, 50)
     res = {"n": 50, "counts": dict(c), "over_merge_share": k/50, "wilson95": [round(lo, 3), round(hi, 3)]}
-    json.dump(res, open(os.path.join(HERE, "rule_results.json"), "w"), indent=1)
+    json.dump(res, open(os.path.join(DATA, "rule_results.json"), "w"), indent=1)
     print(json.dumps(res, indent=1))
 
 if __name__ == "__main__":

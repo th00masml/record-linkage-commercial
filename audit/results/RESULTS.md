@@ -1,8 +1,8 @@
 # Audit results: within-wave positives with conflicting parents
 
-Protocol: `PROTOCOL.md` (committed before the sample was drawn).
-Code: `evidence.py`, `run_audit.py`. Per-item evidence and verdicts:
-`audit_sample.jsonl`. Internal evidence only (people.csv), no source images.
+Protocol: `../protocols/PROTOCOL.md` (committed before the sample was drawn).
+Code: `../scripts/evidence.py`, `../scripts/run_audit.py`. Per-item evidence
+and verdicts: `../data/audit_sample.jsonl`. Internal evidence only (people.csv), no source images.
 
 ## Primary (pre-registered rule)
 

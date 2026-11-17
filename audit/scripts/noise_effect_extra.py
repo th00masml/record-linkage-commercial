@@ -6,7 +6,8 @@ import numpy as np
 from sklearn.metrics import precision_recall_curve, roc_auc_score
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-d = np.load(os.path.join(HERE, "noise_effect_scores.npz"), allow_pickle=True)
+DATA = os.path.join(os.path.dirname(HERE), "data")
+d = np.load(os.path.join(DATA, "noise_effect_scores.npz"), allow_pickle=True)
 idx, yI, yA, st, w, y_ice, y_rule = (d[k] for k in ["idx", "yI", "yA", "st", "w", "y_ice", "y_rule"])
 S = {k[2:]: d[k] for k in d.files if k.startswith("S_")}
 rng = np.random.default_rng(0)
@@ -40,5 +41,5 @@ for m in ["GB_noisy", "LR_noisy"]:
         res[nm] = {"est": roc_auc_score(y, a) - roc_auc_score(y, b), "ci": np.percentile(vals, [2.5, 97.5]).tolist()}
     sec[m] = res
 out["lead_over_B2_secondary"] = sec
-json.dump(out, open(os.path.join(HERE, "noise_effect_extra.json"), "w"), indent=1)
+json.dump(out, open(os.path.join(DATA, "noise_effect_extra.json"), "w"), indent=1)
 print(json.dumps(out, indent=1))

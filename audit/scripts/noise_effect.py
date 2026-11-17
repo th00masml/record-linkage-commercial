@@ -12,6 +12,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+DATA = os.path.join(os.path.dirname(HERE), "data")
 sys.path.insert(0, HERE)
 from evidence import load, evidence, lab
 from evidence2 import all_pairs, evidence2, stem, stems_differ, SPOUSE, VISIT
@@ -135,7 +136,7 @@ def main(extra=None, tag=""):
     # ---- primary: audited sample
     aud = []
     for fn, stratum, wgt in [("audit_sample.jsonl", "a1", 859 / 50), ("audit2_sample.jsonl", "a2", 9429 / 100)]:
-        for l in open(os.path.join(HERE, fn)):
+        for l in open(os.path.join(DATA, fn)):
             e = json.loads(l)
             i = key[frozenset((e["a"]["row"], e["b"]["row"]))]
             lab_a = {"over_merge": 0, "probable_over_merge": 0, "label_correct": 1, "duplicate_row": 1}.get(e["final"])
@@ -187,7 +188,7 @@ def main(extra=None, tag=""):
         primary[f"ranking_{cond}"] = sorted(S, key=lambda n: -primary["methods"][n][cond]["auc"])
 
     # ---- secondary: rule-cleaned labels on all pairs (partly circular)
-    conflict = {tuple(c) for c in json.load(open(os.path.join(HERE, "conflict_pairs.json")))}
+    conflict = {tuple(c) for c in json.load(open(os.path.join(DATA, "conflict_pairs.json")))}
     y_rule = y_ice.copy()
     flagged = Counter()
     for (p, w_, ida, idb) in positives:
@@ -209,11 +210,11 @@ def main(extra=None, tag=""):
     for cond in ("ice", "clean"):
         secondary[f"ranking_{cond}"] = sorted(S, key=lambda n: -secondary["methods"][n][cond]["auc"])
 
-    np.savez(os.path.join(HERE, f"noise_effect_scores{tag}.npz"), idx=idx, yI=yI, yA=yA, st=st, w=w,
+    np.savez(os.path.join(DATA, f"noise_effect_scores{tag}.npz"), idx=idx, yI=yI, yA=yA, st=st, w=w,
              y_ice=y_ice, y_rule=y_rule, **{f"S_{k}": v for k, v in S.items()})
     out = {"positives": len(positives), "pairs": len(pairs), "positives_without_negative": no_neg,
            "primary_audited": primary, "secondary_rule_cleaned": secondary}
-    json.dump(out, open(os.path.join(HERE, f"noise_effect_results{tag}.json"), "w"), indent=1, default=float)
+    json.dump(out, open(os.path.join(DATA, f"noise_effect_results{tag}.json"), "w"), indent=1, default=float)
 
     for title, blk in [("PRIMARY: audited sample", primary), ("SECONDARY: rule-cleaned, all pairs", secondary)]:
         print(f"\n{title}  (n={blk['n_pairs']})")

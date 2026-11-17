@@ -1,8 +1,9 @@
 # Results 3: what the label noise does to method results (within-wave task)
 
-Protocol: `PROTOCOL3.md` (committed before scoring). Code: `noise_effect.py`
-(pre-registered), `noise_effect_extra.py` (not pre-registered). Numbers:
-`noise_effect_results.json`, `noise_effect_extra.json`.
+Protocol: `../protocols/PROTOCOL3.md` (committed before scoring). Code:
+`../scripts/noise_effect.py` (pre-registered),
+`../scripts/noise_effect_extra.py` (not pre-registered). Numbers:
+`../data/noise_effect_results.json`, `../data/noise_effect_extra.json`.
 
 Evaluation set: 10,288 within-wave positives, 20,412 negatives (two per
 positive, same wave and name block; 61 positives had no negative). Primary
