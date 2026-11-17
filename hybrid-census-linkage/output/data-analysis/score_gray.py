@@ -90,13 +90,13 @@ def write_meta():
         sys.exit(f"{MODEL} not found in `ollama list`; run `ollama pull {MODEL}` first")
     meta = {}
     if os.path.exists(META):
-        meta = json.load(open(META))
+        meta = json.load(open(META, encoding="utf-8"))
         if meta.get("model_digest") not in (None, digest):
             sys.exit(f"model digest changed ({meta['model_digest']} -> {digest}); "
                      "log a deviation before continuing")
     meta.update({"ollama_version": version, "model": MODEL, "model_digest": digest,
                  "seeds": SEEDS, "options": OPTIONS})
-    json.dump(meta, open(META, "w"), indent=2)
+    json.dump(meta, open(META, "w", encoding="utf-8"), indent=2)
     print(f"Ollama {version}, {MODEL} digest {digest[:12]}")
 
 
@@ -105,17 +105,17 @@ def main(split):
         sys.exit("usage: score_gray.py cal|test")
     os.makedirs(RESULTS, exist_ok=True)
     write_meta()
-    pairs = [json.loads(l) for l in open(os.path.join(DERIVED, f"gray_{split}.jsonl"))]
+    pairs = [json.loads(l) for l in open(os.path.join(DERIVED, f"gray_{split}.jsonl"), encoding="utf-8")]
     assert all("label" not in p for p in pairs), "gray files must not carry labels"
     done = set()
     if os.path.exists(OUT):
-        for l in open(OUT):
+        for l in open(OUT, encoding="utf-8"):
             r = json.loads(l)
             done.add((r["split"], r["pair_id"], r["seed"]))
     todo = [(p, s) for p in pairs for s in SEEDS if (split, p["pair_id"], s) not in done]
     print(f"{split}: {len(pairs)} pairs x {len(SEEDS)} seeds, {len(done)} cached, {len(todo)} to do")
     t0 = time.time()
-    with open(OUT, "a") as f:
+    with open(OUT, "a", encoding="utf-8") as f:
         for i, (p, seed) in enumerate(todo):
             out = generate(SYSTEM + "\n\n" + prompt(p["a"], p["b"]), seed)
             f.write(json.dumps({"split": split, "pair_id": p["pair_id"], "seed": seed,
