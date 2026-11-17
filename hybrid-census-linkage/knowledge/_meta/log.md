@@ -42,3 +42,9 @@ author: llm
   - Small gray zone: 329 calibration gray pairs, about 79 negatives, so LLM specificity (and the strength of the Bayesian update) is estimated imprecisely. Report the sens/spec CIs in Task 7.
   - Operating point: about 22% of calibration positives fall in auto-reject at beta = 0.05 (beta bounds the missed-match share among rejected pairs, not recall). Report recall of auto-decisions and end-to-end misses explicitly (Amendment 1, item 4).
 - From Task 4 on, reviews are done in the main context and recorded here.
+
+## [2026-11-17] data | gray-zone-triage Task 4
+- Calibration gray zone rebuilt with saved b0/b1: 329 pairs, equal to thresholds.json; all used (cap 800 not reached).
+- Test sample: 5,112 anchor records (4,895 anchor persons), 22,258 pairs; regions accept 2,838 / reject 18,820 / gray 600 (L_B2 = 0.027). Selection used B2 scores and frozen thresholds only.
+- Review (main context): gray files carry only pair_id, a, b (no labels, partner_id blank); every taken anchor complete; gray_test equals the sample's gray region; no overlap between calibration and test gray pairs. 78% of test pairs come from waves 1835-1855 (descriptive, follows the name-frequency distribution).
+- `labels_test.jsonl` is a mechanical copy for Task 7; no statistic on test labels has been computed.

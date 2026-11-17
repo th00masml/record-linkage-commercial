@@ -1,0 +1,32 @@
+{
+ "task": "gray-zone-triage Task 4",
+ "cal_gray_pairs": 329,
+ "cal_gray_capped": false,
+ "test_anchor_records": 5112,
+ "test_anchor_persons": 4895,
+ "test_pairs": 22258,
+ "test_regions": {
+  "reject": 18820,
+  "accept": 2838,
+  "gray": 600
+ },
+ "test_gray_pairs": 600,
+ "L_B2_test": 0.027,
+ "test_wave_pairs": {
+  "1703": 233,
+  "1729": 3,
+  "1801": 198,
+  "1816": 774,
+  "1835": 5058,
+  "1840": 3815,
+  "1845": 2962,
+  "1850": 2805,
+  "1855": 2694,
+  "1860": 711,
+  "1870": 475,
+  "1880": 337,
+  "1890": 424,
+  "1901": 847,
+  "1910": 922
+ }
+}
