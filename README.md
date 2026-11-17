@@ -16,9 +16,10 @@ not significantly better than the local one.
 
 Post-hoc, on 4,000-pair held-out sets with the v1 leaks removed, the same
 frozen rule (AUC 0.961) matches a Fellegi-Sunter model fitted with Splink
-(0.959) and a dev-fitted logistic regression (0.963), and adding the LLM score
-to the rule as a feature does not help (Δ −0.006). On clean structured fields,
-use a rule.
+(0.959) and a dev-fitted logistic regression (0.963). claude-sonnet-5, called
+without Claude Code's own context, ties the rule on 400 leak-free pairs (0.972
+vs 0.969) and still trails it on the preregistered pairs (0.856 vs 0.905).
+No LLM comes near the +0.05 margin. On clean structured fields, use a rule.
 
 - Manuscript draft: `MANUSCRIPT.md` (bibliography: `references.bib`)
 - Problem, source (Galton 1892, PD), preregistration + post-hoc notes: `PROBLEM.md`
@@ -47,7 +48,9 @@ python prepare_pairs_v2.py
 python baselines_v2.py                            # B1, B2 frozen, Fellegi-Sunter (EM / counts), LR
 python splink_baseline.py                         # Splink 5 Fellegi-Sunter
 python report_v2.py
+python stacking_v2.py                             # LLM as a feature on v2
 ```
 
-LLM runs on v2 (few-shot, repeats, temperature-0 API) are listed in
-`RESULTS.md`; they were not run in this repository.
+claude-sonnet-5 runs on v2 and the bare-instrument v1 re-run are cached in
+`outputs/`; qwen2.5:14b on v2 and few-shot runs still need a machine with
+Ollama (commands in `RESULTS.md`).
