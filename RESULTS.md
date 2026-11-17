@@ -3,15 +3,25 @@
 Run date (v1, preregistered): 2026-08-09. Instruments: `qwen2.5:14b` (local)
 and `claude-sonnet-5` (commercial, via the authenticated Claude CLI, no API
 key). Numbers recompute from cached outputs in `outputs/`.
-Post-hoc analysis and the v2 baselines: 2026-11-17 (sections marked post-hoc).
+Post-hoc analysis, v2 baselines and the v2 / bare-instrument Sonnet runs:
+2026-11-17 (sections marked post-hoc).
 
 ## Verdict: KILLED-AT-4
 
-A competent hand-built deterministic linker beats both LLMs on structured
-Icelandic census linkage. The frontier model does not clear the bar, and
-is not significantly better than the local 14B. The post-hoc checks below
-(leak fixes, a canonical Fellegi-Sunter/Splink baseline, 4,000-pair held-out
-sets, LLM as a feature) do not change this.
+No LLM beats a hand-built deterministic linker by the preregistered margin
+on structured Icelandic census linkage, on the preregistered set or on any
+post-hoc set. On the preregistered 200 pairs the rule is significantly better
+than both LLMs. Post-hoc, two of the original conclusions need qualifying:
+
+- On the leak-free v2 set, claude-sonnet-5 called without Claude Code's own
+  context **ties** the rule (0.972 vs 0.969, Δ +0.003 [−0.009, +0.015]). It is
+  as good as the rule, not worse; it is still nowhere near +0.05 better.
+- About half of the v1 gap was the instrument: the same model, called bare,
+  scores 0.856 on v1 instead of 0.816 (+0.040 [−0.004, +0.087]). The rule still
+  beats it there (−0.049 [−0.079, −0.020]).
+
+The practical conclusion stands: a free, transparent rule (or Splink) matches the
+frontier model on clean structured fields, so the LLM call buys nothing here.
 
 ## The numbers (v1, preregistered)
 
@@ -62,6 +72,24 @@ The LLMs saw census years, so the first two problems, if anything, favoured
 them over B2 (which ignores census years). B2 without the gold-derived partner
 term still beats claude-sonnet-5 by 0.084, 95% CI [−0.132, −0.040]. The v1
 verdict stands.
+
+### The v1 commercial instrument (post-hoc)
+
+The v1 call used `claude -p --append-system-prompt`, which adds our instruction
+to Claude Code's own default system prompt, tool definitions and installed
+skills (~65k tokens per call in this environment). Re-run on the same 200 pairs
+with that context stripped (`--system-mode replace`: our system prompt and the
+two records only, ~1.4k tokens), 3 samples per pair, CLI 2.1.326, model id
+reported per call `claude-sonnet-5`
+(`outputs/pairs__comm__cli__shots0__sysreplace/`):
+
+| | AUC [95% CI] | Δ vs v1 call | Δ vs B2 |
+|---|---|---|---|
+| v1 call (Claude Code context, 1 sample) | 0.816 [0.758, 0.869] | — | −0.089 [−0.137, −0.045] |
+| bare, mean of 3 samples | 0.856 [0.801, 0.905] | +0.040 [−0.004, +0.087] | −0.049 [−0.079, −0.020] |
+| bare, first sample only | 0.860 | +0.044 [+0.000, +0.091] | |
+
+Per-sample AUC 0.860 / 0.851 / 0.851; mean within-pair SD of the score 0.035.
 
 ## v2: larger, leak-controlled, held-out sets (post-hoc)
 
@@ -123,18 +151,37 @@ Reading:
   set because its negatives were chosen to be maximally confusable (first
   matching pair per name key), and its positives include longer gaps.
 
-**LLMs on v2: not run.** The local model needs a GPU host with Ollama and the
-commercial one an authenticated CLI or an API key; neither was available in
-the environment where v2 was built. The bar any LLM must clear on
-`llm_adjacent` is B2 = 0.969 [0.951, 0.984] (Splink 0.970). Commands:
+### LLMs on v2 (`llm_adjacent`, 400 pairs)
+
+claude-sonnet-5 via the CLI with `--system-mode replace` (bare instrument),
+zero-shot, 3 samples per pair, scores averaged; CLI 2.1.326; the model id the
+CLI reported on every call was `claude-sonnet-5`
+(`outputs/v2_llm_adjacent__comm__cli__shots0__sysreplace/`).
+
+| method | AUC [95% CI] | Δ vs B2 [95% CI] |
+|---|---|---|
+| B2 (frozen) | 0.969 [0.951, 0.984] | — |
+| FS_splink | 0.970 [0.953, 0.985] | +0.001 [−0.009, +0.011] |
+| LR (dev-fitted) | 0.972 [0.955, 0.986] | +0.003 [−0.004, +0.010] |
+| claude-sonnet-5, bare, mean of 3 | 0.972 [0.955, 0.986] | +0.003 [−0.009, +0.015] |
+
+Per-sample AUC 0.971 / 0.970 / 0.971; mean within-pair SD of the score 0.022.
+Gain over the best baseline is +0.003 against the +0.05 the preregistered
+criterion asks for: the criterion fails on v2 too, but here because the LLM
+ties the rule, not because it loses to it. Together with the v1 re-run this
+says the v1 gap came from two sources: the instrument (about 0.04) and the v1
+pair set (the remaining 0.05). Which property of the v1 set hurts the LLM more
+than the rule (the first-match-per-name negatives, the narrow "A" name sample,
+the mixed census gaps) is not isolated here.
+
+**qwen2.5:14b on v2: not run.** The cloud environment this was run in has no
+GPU and cannot reach the Ollama registry. Commands for a machine with Ollama:
 
 ```
 cd src
 python score.py local --pairs v2/llm_adjacent
 python score.py local --pairs v2/llm_adjacent --shots 4
-python score.py comm  --pairs v2/llm_adjacent --backend api --repeats 3      # temperature 0
-python score.py comm  --pairs v2/llm_adjacent --backend cli --system-mode replace --json-output --repeats 3
-python report_v2.py   # picks up outputs/v2_llm_adjacent__*/ automatically, with paired Δ vs B2
+python report_v2.py && python stacking_v2.py
 ```
 
 ## LLM as a feature, not a replacement (post-hoc, v1)
@@ -154,17 +201,23 @@ Neither LLM score adds information the rule lacks. (A first version of this
 analysis averaged raw out-of-fold log-odds and showed a spurious +0.017; the
 fold intercepts had depressed the B2-only baseline to 0.867. Fixed.)
 
-Few-shot prompting (`--shots k`, examples from v2 dev, names disjoint from test)
-is implemented but not yet run; see the commands above.
+On v2 `llm_adjacent` (`python src/stacking_v2.py`), B2 + logit(claude-sonnet-5,
+bare) scores 0.975 against B2's 0.969: Δ +0.006 [−0.002, +0.015], share of
+bootstrap deltas ≤ 0 = 0.07. A small gain that the 400 pairs cannot
+distinguish from zero.
 
-## Why the rule wins
+Few-shot prompting (`--shots k`, examples from v2 dev, names disjoint from test)
+is implemented; it has not been run for either model (see the qwen commands above).
+
+## Why the LLM does not beat the rule
 
 The disambiguating evidence here is structured: birth-year agreement,
 parish/county, farm, partner, and geographic distance from coordinates.
 A weighted rule over those fields is exactly the right tool, and on 4,000
-fresh pairs it is as good as a Fellegi-Sunter model fitted with Splink. The LLM
-reads the same fields as prose and reasons about them, but adds no accuracy,
-either instead of the rule or alongside it.
+fresh pairs it is as good as a Fellegi-Sunter model fitted with Splink. The
+frontier model, reading the same fields as prose, reaches the same ceiling on
+clean pairs (v2) and falls short of it on the hardest homonyms (v1). Stacked
+on the rule it adds at most a few thousandths of AUC.
 
 Where an LLM might still help is the genuinely messy tail (OCR-garbled
 names, inconsistent free-text, missing fields): not tested here, and the
@@ -178,8 +231,8 @@ recalling which of 984,028 rows share an expert id would require memorizing a
 large table nearly verbatim. Two facts keep this from being "by construction":
 ICE-ID, including the `person` column, has been public on HuggingFace since
 mid-2025, and we do not know the training cutoff or data of either model.
-Contamination would inflate the LLM scores, so it cannot explain the negative
-result; it could only make it more negative. A direct probe (show a row, ask for
+Contamination would inflate the LLM scores, so it cannot explain why the LLM
+fails to beat the rule; at most it could mean the v2 tie overstates the LLM. A direct probe (show a row, ask for
 the row ids of the same person in other waves; check against `people.csv`) is
 straightforward and left as future work.
 
@@ -187,8 +240,9 @@ straightforward and left as future work.
 
 - v1: 200 pairs, adjacent-appearance positives, the design problems above.
 - v2 covers 4,000-5,000 pairs per test set, long gaps and the realistic class
-  mix, but **only for the deterministic and probabilistic baselines**. LLM
-  results exist for v1 only.
+  mix for the baselines. LLM results on v2 cover claude-sonnet-5 on the 400-pair
+  adjacent-wave subset only (zero-shot, 3 samples); qwen2.5:14b on v2, few-shot
+  prompting, long-gap and natural-prevalence LLM runs are still missing.
 - One country, clean structured fields (the LLM's worst case relative to rules;
   its best case, messy free text, is untested).
 - Labels are expert curations; two different person ids can be the same human
@@ -196,7 +250,7 @@ straightforward and left as future work.
   versions, so the v2 "natural" prevalence is that of the labelled subset.
 - The v1 commercial scores are single CLI samples with no temperature control,
   run through Claude Code's default system prompt (`--append-system-prompt`).
-  Variance across samples is unmeasured; `score.py --repeats` and
-  `--backend api` now measure it.
+  The post-hoc runs use 3 samples per pair (spread above) but still no
+  temperature control; `--backend api` (temperature 0) has not been run.
 - Ollama version, model digest, CLI version and the dated model snapshot behind
   `claude-sonnet-5` were not logged in v1 (see DATA-LICENSES.md); new runs log them.

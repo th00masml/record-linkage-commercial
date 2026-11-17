@@ -1,5 +1,5 @@
 ---
-title: "A hand-built rule beats LLMs at linking Icelandic census homonyms: a preregistered negative result"
+title: "LLMs do not beat a hand-built rule at linking Icelandic census homonyms: a preregistered negative result"
 date: 2026-11-17
 bibliography: references.bib
 status: draft
@@ -22,9 +22,12 @@ least 0.05) fails. Post-hoc we found and removed four design leaks in the 200
 pairs, built held-out sets of 4,000-5,000 pairs drawn at random from the full
 blocked candidate space, and added the canonical probabilistic baseline. With
 its weights frozen, the rule (0.961) matches Fellegi-Sunter fitted with Splink
-(0.959) and a dev-fitted logistic regression (0.963). Stacking the LLM score on
-top of the rule does not improve it. On clean structured fields, the LLM adds
-nothing a rule does not already capture.
+(0.959) and a dev-fitted logistic regression (0.963). Called without the coding
+agent's own context, claude-sonnet-5 scores 0.856 on the preregistered pairs,
+still 0.049 [0.020, 0.079] below the rule, and on 400 leak-free held-out pairs
+it ties the rule (0.972 vs 0.969, Δ +0.003 [−0.009, +0.015]). Stacked on the
+rule it adds at most a few thousandths. On clean structured fields a frontier
+LLM reaches, but does not pass, what a transparent rule already achieves.
 
 ## 1. Introduction
 
@@ -45,11 +48,14 @@ rests on birth year, place, household and life course. If an LLM's "reasoning
 over messy evidence" adds value anywhere in linkage, it should show where the
 name is useless.
 
-We test this with a preregistered kill criterion and report a clean negative.
-Our contribution is the negative result and the checks that make it hold: a
-canonical Fellegi-Sunter baseline, held-out sets twenty times larger, an audit
-of the original pair set, and a test of the LLM as an extra feature rather than
-a replacement.
+We test this with a preregistered kill criterion and report a negative. Our
+contribution is the negative result and the checks around it: a canonical
+Fellegi-Sunter baseline, held-out sets twenty times larger, an audit of the
+original pair set, a re-run that separates the model from the agent wrapper it
+was called through, and a test of the LLM as an extra feature rather than a
+replacement. Two of these checks weaken our original claim that the rule is
+better: on clean pairs the frontier model is as good as the rule. None of them
+brings the LLM close to the preregistered margin.
 
 ## 2. Related work
 
@@ -121,20 +127,25 @@ random sampling over 221,839 dev records and m by EM over same-name blocks,
 without labels. **LR**: L2 logistic regression on one-hot comparison levels,
 fitted on dev.
 
-**LLMs (v1).** A fixed zero-shot prompt asks for a probability from 0 to 1 that
+**LLMs.** A fixed zero-shot prompt asks for a probability from 0 to 1 that
 the two records are the same person, explaining that names are uninformative.
-qwen2.5:14b ran locally via Ollama at temperature 0. claude-sonnet-5 ran once
-per pair through the Claude CLI, which has no temperature setting and which
-added our system instruction to its own default system prompt.
+qwen2.5:14b ran locally via Ollama at temperature 0 (v1 only). claude-sonnet-5
+ran through the Claude CLI, which has no temperature setting. In the
+preregistered run (one sample per pair) the CLI added our system instruction to
+its own default system prompt, tool definitions and installed skills, about 65k
+tokens per call. Post-hoc we re-ran it bare (our system prompt and the two
+records only, about 1.4k tokens; CLI 2.1.326), three samples per pair averaged,
+on the v1 pairs and on llm_adjacent.
 
 **Evaluation.** ROC-AUC with 1,000-resample bootstrap CIs; paired bootstrap
 (2,000 resamples) for differences; average precision for the natural set.
 **Kill criterion (v1, preregistered):** the commercial model needs AUC ≥ 0.65,
 a CI excluding 0.5, and a gain of at least +0.05 over the best baseline.
 
-**LLM as feature.** On v1, cross-fitted logistic stacking (10 folds, 20
-repeats) of the rule score and the LLM's logit, scored by the fitted slope
-direction so that fold intercepts cannot reshuffle the pooled ranking.
+**LLM as feature.** On v1 and on llm_adjacent, cross-fitted logistic stacking
+(10 folds, 20 repeats) of the rule score and the LLM's logit, scored by the
+fitted slope direction so that fold intercepts cannot reshuffle the pooled
+ranking.
 
 ## 5. Results
 
@@ -157,8 +168,27 @@ The hand-set rule did not depend on having seen the v1 pairs: with frozen
 weights it matches fitted models on fresh adjacent-wave pairs and trails them
 by at most 0.010 on long gaps. Long-gap linkage is harder for every method.
 
-**LLM as feature (v1).** Rule alone 0.900; with claude-sonnet-5 0.894
+**The instrument.** The same model on the same 200 v1 pairs scores 0.816 with
+the agent context and 0.856 [0.801, 0.905] bare (Δ +0.040 [−0.004, +0.087];
+first bare sample alone +0.044 [0.000, 0.091]). Bare, it still trails the rule
+by 0.049 [0.020, 0.079]. Per-sample AUC 0.860 / 0.851 / 0.851.
+
+**LLM on v2** (llm_adjacent, 400 pairs, wave-matched, identical names):
+
+| method | AUC [95% CI] | Δ vs B2 |
+|---|---|---|
+| B2, frozen | 0.969 [0.951, 0.984] | — |
+| FS Splink | 0.970 [0.953, 0.985] | +0.001 [−0.009, +0.011] |
+| LR, dev-fitted | 0.972 [0.955, 0.986] | +0.003 [−0.004, +0.010] |
+| claude-sonnet-5, bare, 3 samples | 0.972 [0.955, 0.986] | +0.003 [−0.009, +0.015] |
+
+Per-sample AUC 0.971 / 0.970 / 0.971. The gain over the best baseline is +0.003
+against the required +0.05.
+
+**LLM as feature.** v1: rule alone 0.900; with claude-sonnet-5 (v1 call) 0.894
 (Δ −0.006 [−0.017, +0.004]); with qwen2.5:14b 0.897 (Δ −0.003 [−0.016, +0.010]).
+v2 llm_adjacent: rule alone 0.969; with bare claude-sonnet-5 0.975
+(Δ +0.006 [−0.002, +0.015]).
 
 **Comparison with ICE-ID's reported results.** ICE-ID v1 reports AUC 0.999 for
 across-wave linkage with supervised ensembles trained on up to 500,000 pairs
@@ -170,27 +200,37 @@ the homonym task is where models are still separated.
 ## 6. Discussion
 
 The fields that decide homonym links are categorical and numeric. A weighted
-sum over them, whether hand-set or estimated by Fellegi-Sunter, already
-captures what the LLM extracts from the same fields written as text, and the
-LLM's score adds nothing once the rule's is known. The commercial model's
-advantage over a 14B local model is within noise.
+sum over them, whether hand-set or estimated by Fellegi-Sunter, reaches about
+0.97 AUC on clean blocked pairs, and the frontier model reading the same fields
+as text reaches the same value, not more. On the preregistered pairs, which
+contain the hardest homonym per name, the model falls short of the rule even
+when called bare. Stacked on the rule, its score adds at most a few
+thousandths. For this task the model is a slower, opaque way to reproduce a
+rule, and the question the field should ask is where the structured ceiling
+ends: free text and damaged transcriptions, which we did not test.
+
+A methodological point follows from the instrument effect. Calling a model
+through a coding agent's print mode (here, Claude Code with its default system
+prompt and installed skills) changed AUC by about 0.04. Evaluations that use
+such wrappers measure the wrapper as well as the model and should say so.
 
 **Contamination.** ICE-ID, including the person ids, is public, and we do not
 know either model's training data. Contamination could only raise the LLM
-scores, so it cannot explain a negative result. A direct probe (ask for the row
+scores, so it cannot explain why the LLM fails to beat the rule; at most it
+could mean the v2 tie overstates the model. A direct probe (ask for the row
 ids of the same person in other waves and check them) is left for future work.
 
 ## 7. Limitations
 
-- LLM results exist only for the 200 v1 pairs, which carry the design problems
-  above. The v2 sets are built and the scoring code supports few-shot prompts,
-  repeated samples and a temperature-0 API backend, but no LLM has been run on
-  v2.
-- One prompt and one zero-shot format were tested on v1. Few-shot prompting and
+- LLM results on v2 cover claude-sonnet-5 on the 400-pair adjacent-wave
+  subset only. qwen2.5:14b has no v2 run, and no LLM has been run on the
+  long-gap or natural-prevalence sets.
+- One zero-shot prompt was tested. Few-shot prompting (implemented) and
   fine-tuning are untested.
-- The commercial scores are single samples from the CLI, without temperature
-  control, and the CLI's default system prompt was in effect. Model snapshot,
-  CLI version, Ollama version and model digest were not logged for v1.
+- No commercial run controls temperature (CLI only). The preregistered call ran
+  inside the agent's default context, one sample per pair; the post-hoc calls are
+  bare and use three. Model snapshot, CLI version, Ollama version and model
+  digest were not logged for the preregistered run.
 - Only clean structured fields were tested. Free-text, OCR-damaged or
   inconsistently transcribed records, where an LLM might help, are not.
 - The labels are expert curations and may miss links. Unlabelled rows (half

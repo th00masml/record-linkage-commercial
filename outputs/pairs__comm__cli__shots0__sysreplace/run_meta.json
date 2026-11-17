@@ -1,0 +1,20 @@
+{
+  "started": "2026-11-17T02:10:17.886232+00:00",
+  "args": {
+    "method": "comm",
+    "pairs": "pairs",
+    "backend": "cli",
+    "model": "claude-sonnet-5",
+    "shots": 0,
+    "repeats": 3,
+    "temperature": 0.0,
+    "system_mode": "replace",
+    "json_output": true,
+    "seed": 7,
+    "max_failures": 5,
+    "workers": 4
+  },
+  "system_prompt": "You are an expert genealogist performing historical record linkage on Icelandic census data. Reply with only a single number between 0.00 and 1.00, nothing else.",
+  "few_shot_pids_from_dev": [],
+  "claude_cli_version": "2.1.326 (Claude Code)"
+}

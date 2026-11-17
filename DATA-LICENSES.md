@@ -47,6 +47,13 @@ exposes no temperature, and `--append-system-prompt` added our instruction to
 Claude Code's own default system prompt, so the commercial instrument was
 "Claude Code in print mode", not a bare model call.
 
+Post-hoc commercial runs (2026-11-17), logged: Claude CLI `2.1.326 (Claude Code)`,
+OAuth subscription session, `--system-mode replace` (our system prompt only; no
+tools, skills, MCP servers or user settings), 3 samples per pair, the CLI's
+`modelUsage` reported `claude-sonnet-5` on every one of the 1,800 calls. See
+`outputs/v2_llm_adjacent__comm__cli__shots0__sysreplace/` and
+`outputs/pairs__comm__cli__shots0__sysreplace/`.
+
 From now on every non-v1 `score.py` run writes `outputs/<run>/run_meta.json`
 with: the Ollama server version and model digest (`/api/version`, `/api/tags`),
 or the `claude --version` string and, with `--json-output`, the model ids the
